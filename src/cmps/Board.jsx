@@ -1,13 +1,30 @@
-export function Board({ board }) {
+export function Board({ board, onMouseDown, onMouseOver, onMouseUp }) {
+    function getImg(cell, rowIdx, colIdx) {
+        let svgName = cell
+        if (
+            board.cellMouseDown &&
+            board.cellMouseDown[0] === rowIdx &&
+            board.cellMouseDown[1] === colIdx &&
+            cell === 'un'
+        ) {
+            svgName = '00'
+        }
+        return `cells/${svgName}.svg`
+    }
+
     return (
         <div className="board">
-            {board.map((row, rowIdx) => (
+            {board.cells.map((row, rowIdx) => (
                 <div className="row" key={rowIdx}>
-                    {row.map((cell, cellIdx) => (
+                    {row.map((cell, colIdx) => (
                         <img
-                            key={cellIdx}
+                            key={colIdx}
                             className="cell"
-                            src={`cells/${cell}.svg`}
+                            draggable="false"
+                            src={getImg(cell, rowIdx, colIdx)}
+                            onMouseDown={() => onMouseDown(rowIdx, colIdx)}
+                            onMouseOver={() => onMouseOver(rowIdx, colIdx)}
+                            onMouseUp={() => onMouseUp(rowIdx, colIdx)}
                         />
                     ))}
                 </div>
