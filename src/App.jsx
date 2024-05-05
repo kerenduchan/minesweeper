@@ -1,15 +1,9 @@
+import { Board } from './cmps/Board'
+
 export function App() {
-    return (
-        <div>
-            <img src="/n-0.svg" />
-            <img src="/n-1.svg" />
-            <img src="/n-2.svg" />
-            <img src="/n-3.svg" />
-            <img src="/n-4.svg" />
-            <img src="/n-5.svg" />
-            <img src="/n-6.svg" />
-            <img src="/n-7.svg" />
-            <img src="/n-8.svg" />
-        </div>
-    )
+    let board = [
+        ['n-1', 'n-2', 'n-3', 'n-4', 'n-5', 'n-0', 'n-1'],
+        ['n-0', 'n-4', 'n-0', 'n-2', 'n-3', 'n-0', 'n-0'],
+    ]
+    return <Board board={board} />
 }
