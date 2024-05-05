@@ -2,8 +2,8 @@ import { Board } from './cmps/Board'
 
 export function App() {
     let board = [
-        ['n-1', 'n-2', 'n-3', 'n-4', 'n-5', 'n-0', 'n-1'],
-        ['n-0', 'n-4', 'n-0', 'n-2', 'n-3', 'n-0', 'n-0'],
+        ['00', '01', '02', '03', '04', '05', '06', '07', '08'],
+        ['bb', 'bx', 'br', 'un', 'un', '00', '00', '00', '00'],
     ]
     return <Board board={board} />
 }
