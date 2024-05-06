@@ -59,10 +59,8 @@ function _getGameCell(rowIdx, colIdx) {
 }
 
 function _exposeCell(rowIdx, colIdx) {
-    console.log('_exposeCell', rowIdx, colIdx)
     gGame.state[rowIdx][colIdx] = 'ex'
     if (gGame.solution[rowIdx][colIdx] !== '00') {
-        console.log('returning')
         return
     }
 
@@ -75,16 +73,12 @@ function _exposeCell(rowIdx, colIdx) {
                 newRowIdx < 0 ||
                 newRowIdx >= gGame.solution.length ||
                 newColIdx < 0 ||
-                newColIdx >= gGame.solution[0].length
+                newColIdx >= gGame.solution[0].length ||
+                gGame.state[newRowIdx][newColIdx] !== 'un'
             ) {
                 continue
             }
-
-            console.log('newRowIdx', newRowIdx, 'newColIdx', newColIdx)
-            console.log('cell state', gGame.state[newColIdx][newRowIdx])
-            if (gGame.state[newRowIdx][newColIdx] === 'un') {
-                _exposeCell(newRowIdx, newColIdx)
-            }
+            _exposeCell(newRowIdx, newColIdx)
         }
     }
 }
