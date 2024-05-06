@@ -42,7 +42,7 @@ function setCellMouseDown(val) {
 }
 
 function exposeCell(rowIdx, colIdx) {
-    // TODO: expose cell
+    _exposeCell(rowIdx, colIdx)
     return setCellMouseDown(null)
 }
 
@@ -55,5 +55,36 @@ function _getGameCell(rowIdx, colIdx) {
             return solution[rowIdx][colIdx]
         default:
             return cellState
+    }
+}
+
+function _exposeCell(rowIdx, colIdx) {
+    console.log('_exposeCell', rowIdx, colIdx)
+    gGame.state[rowIdx][colIdx] = 'ex'
+    if (gGame.solution[rowIdx][colIdx] !== '00') {
+        console.log('returning')
+        return
+    }
+
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+            const newRowIdx = rowIdx + i
+            const newColIdx = colIdx + j
+            if (
+                (i === 0 && j === 0) ||
+                newRowIdx < 0 ||
+                newRowIdx >= gGame.solution.length ||
+                newColIdx < 0 ||
+                newColIdx >= gGame.solution[0].length
+            ) {
+                continue
+            }
+
+            console.log('newRowIdx', newRowIdx, 'newColIdx', newColIdx)
+            console.log('cell state', gGame.state[newColIdx][newRowIdx])
+            if (gGame.state[newRowIdx][newColIdx] === 'un') {
+                _exposeCell(newRowIdx, newColIdx)
+            }
+        }
     }
 }
