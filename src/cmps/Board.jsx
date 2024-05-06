@@ -1,11 +1,17 @@
-export function Board({ board, onMouseDown, onMouseOver, onMouseUp }) {
-    function getImg(cell, rowIdx, colIdx) {
-        let svgName = cell
+import { gameService } from '../services/game.service'
+
+export function Board({ game, onMouseDown, onMouseOver, onMouseUp }) {
+    console.log(game)
+    const { cellMouseDown, cells } = game
+
+    function getImg(rowIdx, colIdx) {
+        let svgName = cells[rowIdx][colIdx]
+
         if (
-            board.cellMouseDown &&
-            board.cellMouseDown[0] === rowIdx &&
-            board.cellMouseDown[1] === colIdx &&
-            cell === 'un'
+            cellMouseDown &&
+            cellMouseDown[0] === rowIdx &&
+            cellMouseDown[1] === colIdx &&
+            cells[rowIdx][colIdx] === 'un'
         ) {
             svgName = '00'
         }
@@ -14,14 +20,14 @@ export function Board({ board, onMouseDown, onMouseOver, onMouseUp }) {
 
     return (
         <div className="board">
-            {board.cells.map((row, rowIdx) => (
+            {cells.map((row, rowIdx) => (
                 <div className="row" key={rowIdx}>
                     {row.map((cell, colIdx) => (
                         <img
                             key={colIdx}
                             className="cell"
                             draggable="false"
-                            src={getImg(cell, rowIdx, colIdx)}
+                            src={getImg(rowIdx, colIdx)}
                             onMouseDown={() => onMouseDown(rowIdx, colIdx)}
                             onMouseOver={() => onMouseOver(rowIdx, colIdx)}
                             onMouseUp={() => onMouseUp(rowIdx, colIdx)}

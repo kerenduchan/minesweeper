@@ -1,39 +1,33 @@
 import { useState } from 'react'
+import { gameService } from './services/game.service'
 import { Board } from './cmps/Board'
 
 export function App() {
-    const defaultBoard = {
-        cells: [
-            ['00', '01', '02', '03', '04', '05', '06', '07', '08'],
-            ['bb', 'bx', 'br', 'un', 'un', 'fl', '00', '00', '00'],
-        ],
-        cellMouseDown: null,
-    }
-
-    const [board, setBoard] = useState(defaultBoard)
+    const [game, setGame] = useState(gameService.getGame())
 
     function onMouseDown(rowIdx, colIdx) {
         setCellMouseDown([rowIdx, colIdx])
     }
 
     function onMouseOver(rowIdx, colIdx) {
-        if (board.cellMouseDown) {
+        if (game.cellMouseDown) {
             setCellMouseDown([rowIdx, colIdx])
         }
     }
 
     function onMouseUp(rowIdx, colIdx) {
-        // TODO: expose cell
-        setCellMouseDown(null)
+        const newGame = gameService.exposeCell(rowIdx, colIdx)
+        setGame(newGame)
     }
 
     function setCellMouseDown(val) {
-        setBoard((prev) => ({ ...prev, cellMouseDown: val }))
+        const newGame = gameService.setCellMouseDown(val)
+        setGame(newGame)
     }
 
     return (
         <Board
-            board={board}
+            game={game}
             onMouseDown={onMouseDown}
             onMouseOver={onMouseOver}
             onMouseUp={onMouseUp}
