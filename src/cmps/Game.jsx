@@ -6,6 +6,11 @@ import { SmileyButton } from './SmileyButton'
 export function Game() {
     const [game, setGame] = useState(gameService.getGame())
 
+    function onRestartGame() {
+        gameService.resetGame()
+        setGame(gameService.getGame())
+    }
+
     function onMouseDown(rowIdx, colIdx) {
         setCellMouseDown([rowIdx, colIdx])
     }
@@ -28,7 +33,7 @@ export function Game() {
 
     return (
         <div className="game">
-            <SmileyButton game={game} />
+            <SmileyButton game={game} onClick={onRestartGame} />
             <Board
                 game={game}
                 onMouseDown={onMouseDown}

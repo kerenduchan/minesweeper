@@ -1,0 +1,15 @@
+.smiley-button {
+    @include clear-button-styling;
+    background-image: url(/public/smileys/smiley-happy-unpressed.svg);
+    background-repeat: no-repeat;
+    height: 26px;
+    width: 26px;
+
+    &.smiley-scared {
+        background-image: url(/public/smileys/smiley-scared.svg);
+    }
+
+    &:active {
+        background-image: url(/public/smileys/smiley-happy-pressed.svg);
+    }
+}

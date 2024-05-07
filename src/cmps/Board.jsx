@@ -1,5 +1,3 @@
-import { gameService } from '../services/game.service'
-
 export function Board({ game, onMouseDown, onMouseOver, onMouseUp }) {
     const { cellMouseDown, cells } = game
 

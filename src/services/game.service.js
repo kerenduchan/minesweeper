@@ -1,5 +1,6 @@
 export const gameService = {
     getGame,
+    resetGame,
     setCellMouseDown,
     exposeCell,
 }
@@ -34,6 +35,16 @@ function getGame() {
         cells,
         cellMouseDown,
     }
+}
+
+function resetGame() {
+    gGame.cellMouseDown = null
+    gGame.state = [
+        ['un', 'un', 'un', 'un'],
+        ['un', 'un', 'un', 'un'],
+        ['un', 'un', 'un', 'un'],
+        ['un', 'un', 'un', 'un'],
+    ]
 }
 
 function setCellMouseDown(val) {
