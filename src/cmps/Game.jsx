@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { gameService } from '../services/game.service'
 import { Board } from './Board'
+import { SmileyButton } from './SmileyButton'
 
 export function Game() {
     const [game, setGame] = useState(gameService.getGame())
@@ -26,11 +27,14 @@ export function Game() {
     }
 
     return (
-        <Board
-            game={game}
-            onMouseDown={onMouseDown}
-            onMouseOver={onMouseOver}
-            onMouseUp={onMouseUp}
-        />
+        <div className="game">
+            <SmileyButton game={game} />
+            <Board
+                game={game}
+                onMouseDown={onMouseDown}
+                onMouseOver={onMouseOver}
+                onMouseUp={onMouseUp}
+            />
+        </div>
     )
 }
