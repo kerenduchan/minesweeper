@@ -31,8 +31,8 @@ export function Game() {
     }
 
     function setCellMouseDown(val) {
-        const newGame = gameService.setCellMouseDown(val)
-        setGame(newGame)
+        gameService.setCellMouseDown(val)
+        setGame(gameService.getGame())
     }
 
     return (

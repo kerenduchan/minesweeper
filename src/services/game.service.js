@@ -49,12 +49,11 @@ function resetGame() {
 
 function setCellMouseDown(val) {
     gGame.cellMouseDown = val
-    return getGame()
 }
 
 function exposeCell(rowIdx, colIdx) {
     _exposeCell(rowIdx, colIdx)
-    return setCellMouseDown(null)
+    setCellMouseDown(null)
 }
 
 function _getGameCell(rowIdx, colIdx) {
