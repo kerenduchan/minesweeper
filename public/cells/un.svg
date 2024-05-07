@@ -7,15 +7,37 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="16.00005"
-   height="16.000025"
-   viewBox="0 0 4.2333465 4.2333398"
+   width="16.000004"
+   height="16.000002"
+   viewBox="0 0 4.2333345 4.2333337"
    version="1.1"
    id="svg1517"
    inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
    sodipodi:docname="un.svg">
   <defs
-     id="defs1511" />
+     id="defs1511">
+    <pattern
+       y="0"
+       x="0"
+       height="6"
+       width="6"
+       patternUnits="userSpaceOnUse"
+       id="EMFhbasepattern" />
+    <pattern
+       y="0"
+       x="0"
+       height="6"
+       width="6"
+       patternUnits="userSpaceOnUse"
+       id="EMFhbasepattern-9" />
+    <pattern
+       y="0"
+       x="0"
+       height="6"
+       width="6"
+       patternUnits="userSpaceOnUse"
+       id="EMFhbasepattern-1" />
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -23,11 +45,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="31.678384"
-     inkscape:cx="4.8901587"
-     inkscape:cy="6.6712393"
+     inkscape:zoom="22.4"
+     inkscape:cx="-14.704244"
+     inkscape:cy="17.45927"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer11"
      inkscape:document-rotation="0"
      showgrid="true"
      fit-margin-top="0"
@@ -43,8 +65,10 @@
     <inkscape:grid
        type="xygrid"
        id="grid2101"
-       originx="0.52916919"
-       originy="0.52917164" />
+       originx="38.100013"
+       originy="-21.166666"
+       spacingx="0.26458334"
+       spacingy="0.26458334" />
   </sodipodi:namedview>
   <metadata
      id="metadata1514">
@@ -59,26 +83,28 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-387.82247,-136.09032)">
-    <rect
-       style="opacity:0.996;fill:#b9b9b9;fill-opacity:1;stroke:none;stroke-width:0.132292;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       id="rect2103"
-       width="3.96875"
-       height="3.96875"
-       x="388.08707"
-       y="136.3549" />
-    <path
-       transform="matrix(0.26458333,0,0,0.26458333,387.82247,136.09032)"
-       d="M 15 0 L 15 2 L 14 2 L 14 14 L 1 14 L 1 15 L 0 15 L 0 16 L 16 16 L 16 0 L 15 0 z "
-       style="fill:#757575;fill-opacity:1;stroke:none;stroke-width:0.999999px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="path836" />
-    <path
-       sodipodi:nodetypes="ccccccccccc"
-       d="m 387.82247,136.09032 v 4.23334 l 0.26459,0 v -0.26459 l 0.26458,0 v -3.43958 h 3.43958 v -0.26458 h 0.26459 v -0.26459 z"
-       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       id="path834" />
+     id="layer11"
+     inkscape:label="unexposed-cell"
+     style="opacity:1">
+    <g
+       id="g1055"
+       transform="translate(18.520834,-4.4979167)">
+      <rect
+         y="4.4979181"
+         x="-18.520821"
+         height="4.2333331"
+         width="4.2333331"
+         id="rect1046"
+         style="opacity:0.996;fill:#c0c0c0;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:square" />
+      <path
+         id="path1048"
+         d="m -14.552072,4.4979179 h -3.968749 v 3.96875 h 0.264583 V 8.2020846 h 0.264583 v -3.175 h 3.175 V 4.7625013 h 0.264583 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <path
+         style="fill:#808080;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         d="m -18.256238,8.7312514 h 3.968749 v -3.96875 h -0.264583 v 0.2645833 h -0.264583 v 3.175 h -3.175 V 8.466668 h -0.264583 z"
+         id="path1050" />
+    </g>
   </g>
 </svg>

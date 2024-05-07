@@ -13,7 +13,7 @@
    version="1.1"
    id="svg1517"
    inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   sodipodi:docname="br.svg">
+   sodipodi:docname="qe.svg">
   <defs
      id="defs1511">
     <pattern
@@ -39,17 +39,18 @@
        id="EMFhbasepattern-1" />
   </defs>
   <sodipodi:namedview
+     inkscape:snap-grids="true"
      id="base"
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="31.678384"
-     inkscape:cx="-15.721666"
-     inkscape:cy="9.9507858"
+     inkscape:zoom="45.254834"
+     inkscape:cx="-5.4920085"
+     inkscape:cy="11.404637"
      inkscape:document-units="mm"
-     inkscape:current-layer="g879"
+     inkscape:current-layer="layer3"
      inkscape:document-rotation="0"
      showgrid="true"
      fit-margin-top="0"
@@ -61,8 +62,7 @@
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     units="px"
-     showguides="false">
+     units="px">
     <inkscape:grid
        type="xygrid"
        id="grid2101"
@@ -99,7 +99,7 @@
          height="33.866665"
          width="33.866665"
          id="rect857"
-         style="opacity:0.996;fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:1.6;stroke-linecap:square" />
+         style="opacity:0.996;fill:#c0c0c0;fill-opacity:1;stroke:none;stroke-width:1.6;stroke-linecap:square" />
       <path
          id="path859"
          d="m -18.52083,8.99584 h -31.75 v 31.75 H -52.3875 V 6.87917 h 33.86667 z"
@@ -108,23 +108,23 @@
   </g>
   <g
      inkscape:groupmode="layer"
-     id="layer7"
-     inkscape:label="bomb"
-     transform="translate(-14.816666,-14.816669)"
+     id="g916"
+     inkscape:label="question-mark-exposed"
      style="display:inline">
     <g
-       id="g1012">
+       id="g914"
+       transform="translate(2.9104167,-6.6145833)">
       <path
-         id="path1004"
-         d="m 17.197923,15.345836 h -0.26458 v 0.52917 h -0.52917 v 0.26458 h -0.26458 v -0.26458 h -0.26458 v 0.26458 h 0.26458 v 0.26458 h -0.26458 v 0.52917 h -0.52917 v 0.26458 h 0.52917 v 0.52917 h 0.26458 v 0.26458 h -0.26458 v 0.26459 h 0.26458 v -0.26459 h 0.26458 v 0.26459 h 0.52917 v 0.52916 h 0.26458 v -0.52916 h 0.529171 v -0.26459 h 0.26458 v 0.26459 h 0.26459 v -0.26459 h -0.26459 v -0.26458 h 0.26459 v -0.52917 h 0.52916 v -0.26458 h -0.52916 v -0.52917 h -0.26459 v -0.26458 h 0.26459 v -0.26458 h -0.26459 v 0.26458 h -0.26458 v -0.26458 h -0.529171 z"
-         style="display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         id="path910"
+         d="m -1.3229046,8.4666679 h 0.52916662 V 7.9375012 h 0.52916668 v 0.79375 H -0.52915462 V 8.9958345 H -0.79373798 V 9.5250012 H -0.2645713 V 8.9958345 H 1.204e-5 V 8.7312512 h 0.26458333 v -0.79375 H 1.204e-5 V 7.6729179 H -1.0583213 v 0.2645833 h -0.2645833 z"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <rect
-         y="16.404171"
-         x="16.404179"
+         y="9.7895842"
+         x="-0.79373795"
          height="0.52916664"
          width="0.52916664"
-         id="rect1008"
-         style="opacity:0.996;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:square" />
+         id="rect912"
+         style="opacity:0.996;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:square" />
     </g>
   </g>
 </svg>
