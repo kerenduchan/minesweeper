@@ -25,6 +25,7 @@ const gGame = {
 
     cellMouseDown: null,
     status: 'playing',
+    explodedBombCoords: null,
 }
 
 function getGame() {
@@ -32,6 +33,7 @@ function getGame() {
     const cells = solution.map((row, rowIdx) =>
         row.map((cell, colIdx) => _getGameCell(rowIdx, colIdx))
     )
+
     return {
         cells,
         cellMouseDown,
@@ -47,6 +49,8 @@ function resetGame() {
         ['un', 'un', 'un', 'un'],
         ['un', 'un', 'un', 'un'],
     ]
+    gGame.status = 'playing'
+    gGame.explodedBombCoords = null
 }
 
 function setCellMouseDown(val) {
@@ -58,19 +62,25 @@ function exposeCell(rowIdx, colIdx) {
     setCellMouseDown(null)
     if (gGame.solution[rowIdx][colIdx] === 'bb') {
         gGame.status = 'lost'
+        gGame.explodedBombCoords = [rowIdx, colIdx]
     }
 }
 
 function _getGameCell(rowIdx, colIdx) {
-    const { solution, state } = gGame
+    const { solution, state, status, explodedBombCoords } = gGame
     const cellState = state[rowIdx][colIdx]
-    switch (cellState) {
-        case 'ex':
-            // TODO: translate wrong bombs
-            return solution[rowIdx][colIdx]
-        default:
-            return cellState
+    const cellSolution = solution[rowIdx][colIdx]
+
+    if (status === 'lost' && cellSolution == 'bb') {
+        if (
+            explodedBombCoords[0] == rowIdx &&
+            explodedBombCoords[1] === colIdx
+        ) {
+            return 'br'
+        }
+        return 'bb'
     }
+    return cellState === 'ex' ? cellSolution : 'un'
 }
 
 function _exposeCell(rowIdx, colIdx) {
