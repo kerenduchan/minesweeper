@@ -1,5 +1,19 @@
+import { useCallback } from 'react'
+import { useEffect } from 'react'
+
 export function Board({ game, onMouseDown, onMouseOver, onMouseUp }) {
     const { cellMouseDown, cells } = game
+
+    useEffect(() => {
+        document.addEventListener('mouseup', onBodyMouseUp)
+        return () => {
+            document.removeEventListener('mouseup', onBodyMouseUp)
+        }
+    }, [])
+
+    const onBodyMouseUp = useCallback(() => {
+        onMouseUp()
+    })
 
     function getImg(rowIdx, colIdx) {
         let svgName = cells[rowIdx][colIdx]

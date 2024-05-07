@@ -22,8 +22,12 @@ export function Game() {
     }
 
     function onMouseUp(rowIdx, colIdx) {
-        const newGame = gameService.exposeCell(rowIdx, colIdx)
-        setGame(newGame)
+        if (rowIdx === undefined) {
+            gameService.setCellMouseDown(null)
+        } else {
+            gameService.exposeCell(rowIdx, colIdx)
+        }
+        setGame(gameService.getGame())
     }
 
     function setCellMouseDown(val) {
