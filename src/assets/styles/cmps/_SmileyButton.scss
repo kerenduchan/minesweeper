@@ -9,6 +9,10 @@
         background-image: url(/public/smileys/smiley-scared.svg);
     }
 
+    &.smiley-sad {
+        background-image: url(/public/smileys/smiley-sad.svg);
+    }
+
     &:active {
         background-image: url(/public/smileys/smiley-happy-pressed.svg);
     }

@@ -1,6 +1,13 @@
 export function SmileyButton({ game, onClick }) {
+    const { cellMouseDown, status } = game
+    console.log(game)
+
     function getButtonClassName() {
-        if (game.cellMouseDown) {
+        if (status === 'lost') {
+            return 'smiley-sad'
+        }
+
+        if (cellMouseDown) {
             return 'smiley-scared'
         }
         return 'smiley-happy-unpressed'

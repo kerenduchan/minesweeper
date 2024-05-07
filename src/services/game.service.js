@@ -24,16 +24,18 @@ const gGame = {
     ],
 
     cellMouseDown: null,
+    status: 'playing',
 }
 
 function getGame() {
-    const { solution, cellMouseDown } = gGame
+    const { solution, cellMouseDown, status } = gGame
     const cells = solution.map((row, rowIdx) =>
         row.map((cell, colIdx) => _getGameCell(rowIdx, colIdx))
     )
     return {
         cells,
         cellMouseDown,
+        status,
     }
 }
 
@@ -54,6 +56,9 @@ function setCellMouseDown(val) {
 function exposeCell(rowIdx, colIdx) {
     _exposeCell(rowIdx, colIdx)
     setCellMouseDown(null)
+    if (gGame.solution[rowIdx][colIdx] === 'bb') {
+        gGame.status = 'lost'
+    }
 }
 
 function _getGameCell(rowIdx, colIdx) {
