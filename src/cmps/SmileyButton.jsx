@@ -1,10 +1,30 @@
+import { useState, useEffect } from 'react'
+
 export function SmileyButton({ game }) {
-    function getImgSrc() {
-        let type = 'smiley-happy-unpressed'
+    const [imgSrc, setImgSrc] = useState('smiley-happy-unpressed')
+
+    useEffect(() => {
         if (game.cellMouseDown) {
-            type = 'smiley-scared'
+            setImgSrc('smiley-scared')
+        } else {
+            setImgSrc('smiley-happy-unpressed')
         }
-        return `smileys/${type}.svg`
+    }, [game.cellMouseDown])
+
+    function onMouseDown() {
+        setImgSrc('smiley-happy-pressed')
     }
-    return <img className="smiley-button" src={getImgSrc()} />
+
+    function onMouseUp() {
+        setImgSrc('smiley-happy-unpressed')
+    }
+
+    return (
+        <img
+            className="smiley-button"
+            src={`smileys/${imgSrc}.svg`}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}
+        />
+    )
 }

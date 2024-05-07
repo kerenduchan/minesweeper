@@ -1,7 +1,6 @@
 import { gameService } from '../services/game.service'
 
 export function Board({ game, onMouseDown, onMouseOver, onMouseUp }) {
-    console.log(game)
     const { cellMouseDown, cells } = game
 
     function getImg(rowIdx, colIdx) {
