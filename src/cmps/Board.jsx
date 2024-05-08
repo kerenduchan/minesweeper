@@ -1,16 +1,8 @@
-import { useEffect, useCallback, useState } from 'react'
-import { gameService } from '../services/game.service'
+import { useEffect, useCallback } from 'react'
+import { Cell } from './Cell'
 
 export function Board({ game, onCellMouseDown, onCellMouseUp, onBodyMouseUp }) {
     const { status, solution } = game
-
-    const [mouseDownCell, setMouseDownCell] = useState(null)
-
-    useEffect(() => {
-        if (status === 'idle') {
-            setMouseDownCell(null)
-        }
-    }, [status])
 
     useEffect(() => {
         document.addEventListener('mouseup', onBodyMouseUpInternal)
@@ -28,50 +20,17 @@ export function Board({ game, onCellMouseDown, onCellMouseUp, onBodyMouseUp }) {
         onCellMouseUp(rowIdx, colIdx)
     }
 
-    function onCellMouseDownInternal(rowIdx, colIdx) {
-        setMouseDownCell([rowIdx, colIdx])
-        onCellMouseDown()
-    }
-
-    function onCellMouseOver(rowIdx, colIdx) {
-        if (status === 'danger') {
-            setMouseDownCell([rowIdx, colIdx])
-        }
-    }
-
-    function onCellMouseOut() {
-        setMouseDownCell(null)
-    }
-
-    function getImg(rowIdx, colIdx) {
-        let cell = gameService.getGameCell(rowIdx, colIdx)
-
-        if (
-            mouseDownCell &&
-            mouseDownCell[0] === rowIdx &&
-            mouseDownCell[1] === colIdx &&
-            cell === 'un'
-        ) {
-            cell = '00'
-        }
-        return `cells/${cell}.svg`
-    }
-
     return (
         <div className="board">
             {solution.map((row, rowIdx) => (
                 <div className="row" key={rowIdx}>
                     {row.map((cellSolution, colIdx) => (
-                        <img
+                        <Cell
                             key={colIdx}
-                            className="cell"
-                            draggable="false"
-                            src={getImg(rowIdx, colIdx)}
-                            onMouseDown={() =>
-                                onCellMouseDownInternal(rowIdx, colIdx)
-                            }
-                            onMouseOver={() => onCellMouseOver(rowIdx, colIdx)}
-                            onMouseOut={onCellMouseOut}
+                            game={game}
+                            rowIdx={rowIdx}
+                            colIdx={colIdx}
+                            onMouseDown={() => onCellMouseDown(rowIdx, colIdx)}
                             onMouseUp={(e) =>
                                 onCellMouseUpInternal(e, rowIdx, colIdx)
                             }

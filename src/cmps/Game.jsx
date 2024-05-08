@@ -26,11 +26,6 @@ export function Game() {
         setGame(gameService.getGame())
     }
 
-    // function setCellMouseDown(val) {
-    //     gameService.setCellMouseDown(val)
-    //     setGame(gameService.getGame())
-    // }
-
     return (
         <div className="game">
             <SmileyButton game={game} onClick={onResetGame} />
