@@ -13,7 +13,7 @@
         background-image: url(/public/smileys/smiley-sad.svg);
     }
 
-    &:active {
+    &:active:hover {
         background-image: url(/public/smileys/smiley-happy-pressed.svg);
     }
 }
