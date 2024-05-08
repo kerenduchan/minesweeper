@@ -1,42 +1,14 @@
-import { useState } from 'react'
 import { Cell } from './Cell'
-import { gameService } from '../services/game.service'
 
-export function Board({ game, onCellMouseDown, onCellMouseUp, onCellMark }) {
-    const { solution, status } = game
-
-    const [mouseDownCell, setMouseDownCell] = useState(null)
-
-    function onMouseLeftDown(rowIdx, colIdx) {
-        if (gameService.isGameOver()) {
-            return
-        }
-
-        setMouseDownCell([rowIdx, colIdx])
-        onCellMouseDown(rowIdx, colIdx)
-    }
-
-    function onCellMouseOver(rowIdx, colIdx) {
-        if (status !== 'danger') {
-            return
-        }
-        setMouseDownCell([rowIdx, colIdx])
-    }
-
-    function onCellMouseUpInternal(e, rowIdx, colIdx) {
-        if (status !== 'danger') {
-            return
-        }
-        setMouseDownCell(null)
-        onCellMouseUp(e, rowIdx, colIdx)
-    }
-
-    function onBoardMouseOut() {
-        if (gameService.isGameOver()) {
-            return
-        }
-        setMouseDownCell(null)
-    }
+export function Board({
+    game,
+    onLeftMouseDown,
+    onRightMouseDown,
+    onMouseOver,
+    onMouseUp,
+    onBoardMouseOut,
+}) {
+    const { solution } = game
 
     return (
         <div className="board" onMouseOut={onBoardMouseOut}>
@@ -47,15 +19,14 @@ export function Board({ game, onCellMouseDown, onCellMouseUp, onCellMark }) {
                             key={colIdx}
                             rowIdx={rowIdx}
                             colIdx={colIdx}
-                            mouseDownCell={mouseDownCell}
-                            onMouseLeftDown={() =>
-                                onMouseLeftDown(rowIdx, colIdx)
+                            onLeftMouseDown={() =>
+                                onLeftMouseDown(rowIdx, colIdx)
                             }
-                            onMouseRightDown={() => onCellMark(rowIdx, colIdx)}
-                            onMouseOver={() => onCellMouseOver(rowIdx, colIdx)}
-                            onMouseUp={(e) =>
-                                onCellMouseUpInternal(e, rowIdx, colIdx)
+                            onRightMouseDown={() =>
+                                onRightMouseDown(rowIdx, colIdx)
                             }
+                            onMouseOver={() => onMouseOver(rowIdx, colIdx)}
+                            onMouseUp={(e) => onMouseUp(e, rowIdx, colIdx)}
                         />
                     ))}
                 </div>

@@ -5,7 +5,7 @@ import { SmileyButton } from './SmileyButton'
 
 export function Game() {
     const [game, setGame] = useState(gameService.getGame())
-
+    console.log(game.status)
     useEffect(() => {
         document.addEventListener('mouseup', onBodyMouseUp)
         return () => {
@@ -24,22 +24,47 @@ export function Game() {
 
     function onResetGame() {
         gameService.resetGame()
-        setGame(gameService.getGame())
+        loadGame()
     }
 
-    function onCellMouseDown() {
-        gameService.setGameStatus('danger')
-        setGame(gameService.getGame())
+    function onLeftMouseDown(rowIdx, colIdx) {
+        if (gameService.isGameOver()) {
+            return
+        }
+        gameService.setTentativeCoords([rowIdx, colIdx])
+        loadGame()
     }
 
-    function onCellMouseUp(e, rowIdx, colIdx) {
+    function onMouseOver(rowIdx, colIdx) {
+        if (game.status !== 'danger') {
+            return
+        }
+        gameService.setTentativeCoords([rowIdx, colIdx])
+        loadGame()
+    }
+
+    function onMouseUp(e, rowIdx, colIdx) {
         e.stopPropagation()
+        if (game.status !== 'danger') {
+            return
+        }
         gameService.exposeCell(rowIdx, colIdx)
-        setGame(gameService.getGame())
+        loadGame()
     }
 
-    function onCellMark(rowIdx, colIdx) {
+    function onRightMouseDown(rowIdx, colIdx) {
         gameService.markCell(rowIdx, colIdx)
+        loadGame()
+    }
+
+    function onBoardMouseOut() {
+        if (game.status !== 'danger') {
+            return
+        }
+        gameService.setTentativeCoords(null)
+        loadGame()
+    }
+    function loadGame() {
         setGame(gameService.getGame())
     }
 
@@ -48,9 +73,11 @@ export function Game() {
             <SmileyButton game={game} onClick={onResetGame} />
             <Board
                 game={game}
-                onCellMouseDown={onCellMouseDown}
-                onCellMouseUp={onCellMouseUp}
-                onCellMark={onCellMark}
+                onLeftMouseDown={onLeftMouseDown}
+                onMouseOver={onMouseOver}
+                onMouseUp={onMouseUp}
+                onRightMouseDown={onRightMouseDown}
+                onBoardMouseOut={onBoardMouseOut}
             />
         </div>
     )

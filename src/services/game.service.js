@@ -6,6 +6,7 @@ export const gameService = {
     isGameOver,
     exposeCell,
     markCell,
+    setTentativeCoords,
 }
 
 // GAME MODEL
@@ -22,9 +23,14 @@ export const gameService = {
 // bb = bomb
 
 // cellStates:
-// 'un' = unexposed and unflagged
-// 'fl' = unexposed and flagged
+// 'un' = unexposed and unmarked
+// 'fl' = unexposed and marked with a flag
+// 'qq' = unexposed and marked with a question mark
 // 'ex' = exposed
+
+// tentativeCoords:
+// Coordinates of the tentative cell - mouse down was clicked, mouse is
+// currently hovering over this cell, no mouse up yet)
 
 // explodedBombCoords:
 // Coordinates of the bomb that was stepped on that resulted in the game
@@ -55,6 +61,7 @@ function resetGame() {
             ['un', 'un', 'un', 'un'],
         ],
 
+        tentativeCoords: null,
         explodedBombCoords: null,
     }
 }
@@ -77,7 +84,13 @@ function exposeCell(rowIdx, colIdx) {
 }
 
 function getGameCell(rowIdx, colIdx) {
-    const { status, solution, cellStates, explodedBombCoords } = gGame
+    const {
+        status,
+        solution,
+        cellStates,
+        tentativeCoords,
+        explodedBombCoords,
+    } = gGame
 
     const cellState = cellStates[rowIdx][colIdx]
     const cellSolution = solution[rowIdx][colIdx]
@@ -93,8 +106,27 @@ function getGameCell(rowIdx, colIdx) {
         }
         return 'bb'
     }
-    // return the cell's solution if exposed, otherwise return unexposed.
-    return cellState === 'ex' ? cellSolution : cellState
+
+    // exposed cell
+    if (cellState === 'ex') {
+        return cellSolution
+    }
+
+    // tentative cell
+    if (
+        tentativeCoords &&
+        tentativeCoords[0] === rowIdx &&
+        tentativeCoords[1] === colIdx
+    ) {
+        switch (cellState) {
+            case 'un':
+                return '00'
+            case 'qq':
+                return 'qp'
+        }
+    }
+
+    return cellState
 }
 
 function isGameOver() {
@@ -120,6 +152,14 @@ function markCell(rowIdx, colIdx) {
     const newGame = { ...gGame, cellStates: structuredClone(gGame.cellStates) }
     newGame.cellStates[rowIdx][colIdx] = newCellState
     gGame = newGame
+}
+
+function setTentativeCoords(coords) {
+    gGame = {
+        ...gGame,
+        status: 'danger',
+        tentativeCoords: coords,
+    }
 }
 
 function _exposeCell(game, rowIdx, colIdx) {
