@@ -1,4 +1,5 @@
 .cell {
     @include clear-button-styling;
+    user-select: none;
     height: 16px;
 }

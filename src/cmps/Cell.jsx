@@ -1,36 +1,23 @@
 import { useEffect, useState } from 'react'
 import { gameService } from '../services/game.service'
 
-export function Cell({ game, rowIdx, colIdx, onMouseUp, onMouseDown }) {
-    const { status } = game
-
+export function Cell({
+    rowIdx,
+    colIdx,
+    mouseDownCell,
+    onMouseDown,
+    onMouseOver,
+    onMouseUp,
+}) {
     const [isMouseDownOnCell, setIsMouseDownOnCell] = useState(false)
 
     useEffect(() => {
-        if (status === 'idle') {
-            setIsMouseDownOnCell(false)
-        }
-    }, [status])
-
-    function onMouseDownInternal() {
-        setIsMouseDownOnCell(true)
-        onMouseDown()
-    }
-
-    function onMouseOver() {
-        if (status === 'danger') {
-            setIsMouseDownOnCell(true)
-        }
-    }
-
-    function onMouseOut() {
-        setIsMouseDownOnCell(false)
-    }
-
-    function onMouseUpInternal(e) {
-        setIsMouseDownOnCell(false)
-        onMouseUp(e)
-    }
+        setIsMouseDownOnCell(
+            mouseDownCell &&
+                rowIdx === mouseDownCell[0] &&
+                colIdx === mouseDownCell[1]
+        )
+    }, [mouseDownCell])
 
     function getImg() {
         let cell = gameService.getGameCell(rowIdx, colIdx)
@@ -44,10 +31,9 @@ export function Cell({ game, rowIdx, colIdx, onMouseUp, onMouseDown }) {
     return (
         <button
             className="cell"
-            onMouseDown={onMouseDownInternal}
+            onMouseDown={onMouseDown}
             onMouseOver={onMouseOver}
-            onMouseOut={onMouseOut}
-            onMouseUp={onMouseUpInternal}
+            onMouseUp={onMouseUp}
         >
             <img draggable="false" src={getImg()} />
         </button>

@@ -1,20 +1,52 @@
+import { useState } from 'react'
 import { Cell } from './Cell'
 
 export function Board({ game, onCellMouseDown, onCellMouseUp }) {
-    const { solution } = game
+    const { solution, status } = game
+
+    const [mouseDownCell, setMouseDownCell] = useState(null)
+
+    function onCellMouseDownInternal(rowIdx, colIdx) {
+        setMouseDownCell([rowIdx, colIdx])
+        onCellMouseDown(rowIdx, colIdx)
+    }
+
+    function onCellMouseOver(rowIdx, colIdx) {
+        if (status !== 'danger') {
+            return
+        }
+        setMouseDownCell([rowIdx, colIdx])
+    }
+
+    function onCellMouseUpInternal(e, rowIdx, colIdx) {
+        if (status !== 'danger') {
+            return
+        }
+        setMouseDownCell(null)
+        onCellMouseUp(e, rowIdx, colIdx)
+    }
+
+    function onBoardMouseOut() {
+        setMouseDownCell(null)
+    }
 
     return (
-        <div className="board">
+        <div className="board" onMouseOut={onBoardMouseOut}>
             {solution.map((row, rowIdx) => (
                 <div className="row" key={rowIdx}>
                     {row.map((cellSolution, colIdx) => (
                         <Cell
                             key={colIdx}
-                            game={game}
                             rowIdx={rowIdx}
                             colIdx={colIdx}
-                            onMouseDown={() => onCellMouseDown(rowIdx, colIdx)}
-                            onMouseUp={(e) => onCellMouseUp(e, rowIdx, colIdx)}
+                            mouseDownCell={mouseDownCell}
+                            onMouseDown={() =>
+                                onCellMouseDownInternal(rowIdx, colIdx)
+                            }
+                            onMouseOver={() => onCellMouseOver(rowIdx, colIdx)}
+                            onMouseUp={(e) =>
+                                onCellMouseUpInternal(e, rowIdx, colIdx)
+                            }
                         />
                     ))}
                 </div>
