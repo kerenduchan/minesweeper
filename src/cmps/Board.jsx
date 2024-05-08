@@ -7,6 +7,12 @@ export function Board({ game, onCellMouseDown, onCellMouseUp, onBodyMouseUp }) {
     const [mouseDownCell, setMouseDownCell] = useState(null)
 
     useEffect(() => {
+        if (status === 'idle') {
+            setMouseDownCell(null)
+        }
+    }, [status])
+
+    useEffect(() => {
         document.addEventListener('mouseup', onBodyMouseUpInternal)
         return () => {
             document.removeEventListener('mouseup', onBodyMouseUpInternal)
@@ -30,12 +36,6 @@ export function Board({ game, onCellMouseDown, onCellMouseUp, onBodyMouseUp }) {
     function onCellMouseOver(rowIdx, colIdx) {
         if (status === 'danger') {
             setMouseDownCell([rowIdx, colIdx])
-        }
-    }
-
-    function onCellMouseOut() {
-        if (status === 'danger') {
-            setMouseDownCell(null)
         }
     }
 
@@ -67,7 +67,6 @@ export function Board({ game, onCellMouseDown, onCellMouseUp, onBodyMouseUp }) {
                                 onCellMouseDownInternal(rowIdx, colIdx)
                             }
                             onMouseOver={() => onCellMouseOver(rowIdx, colIdx)}
-                            onMouseOut={onCellMouseOut}
                             onMouseUp={(e) =>
                                 onCellMouseUpInternal(e, rowIdx, colIdx)
                             }
