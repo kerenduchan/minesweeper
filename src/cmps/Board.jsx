@@ -1,47 +1,76 @@
-import { useCallback } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useCallback, useState } from 'react'
+import { gameService } from '../services/game.service'
 
-export function Board({ game, onMouseDown, onMouseOver, onMouseUp }) {
-    const { cellMouseDown, cells } = game
+export function Board({ game, onCellMouseDown, onCellMouseUp, onBodyMouseUp }) {
+    const { status, solution } = game
+
+    const [mouseDownCell, setMouseDownCell] = useState(null)
 
     useEffect(() => {
-        document.addEventListener('mouseup', onBodyMouseUp)
+        document.addEventListener('mouseup', onBodyMouseUpInternal)
         return () => {
-            document.removeEventListener('mouseup', onBodyMouseUp)
+            document.removeEventListener('mouseup', onBodyMouseUpInternal)
         }
     }, [])
 
-    const onBodyMouseUp = useCallback(() => {
-        onMouseUp()
+    const onBodyMouseUpInternal = useCallback(() => {
+        onBodyMouseUp()
     })
 
+    function onCellMouseUpInternal(e, rowIdx, colIdx) {
+        e.stopPropagation()
+        onCellMouseUp(rowIdx, colIdx)
+    }
+
+    function onCellMouseDownInternal(rowIdx, colIdx) {
+        setMouseDownCell([rowIdx, colIdx])
+        onCellMouseDown()
+    }
+
+    function onCellMouseOver(rowIdx, colIdx) {
+        if (status === 'danger') {
+            setMouseDownCell([rowIdx, colIdx])
+        }
+    }
+
+    function onCellMouseOut() {
+        if (status === 'danger') {
+            setMouseDownCell(null)
+        }
+    }
+
     function getImg(rowIdx, colIdx) {
-        let svgName = cells[rowIdx][colIdx]
+        let cell = gameService.getGameCell(rowIdx, colIdx)
 
         if (
-            cellMouseDown &&
-            cellMouseDown[0] === rowIdx &&
-            cellMouseDown[1] === colIdx &&
-            cells[rowIdx][colIdx] === 'un'
+            mouseDownCell &&
+            mouseDownCell[0] === rowIdx &&
+            mouseDownCell[1] === colIdx &&
+            cell === 'un'
         ) {
-            svgName = '00'
+            cell = '00'
         }
-        return `cells/${svgName}.svg`
+        return `cells/${cell}.svg`
     }
 
     return (
         <div className="board">
-            {cells.map((row, rowIdx) => (
+            {solution.map((row, rowIdx) => (
                 <div className="row" key={rowIdx}>
-                    {row.map((cell, colIdx) => (
+                    {row.map((cellSolution, colIdx) => (
                         <img
                             key={colIdx}
                             className="cell"
                             draggable="false"
                             src={getImg(rowIdx, colIdx)}
-                            onMouseDown={() => onMouseDown(rowIdx, colIdx)}
-                            onMouseOver={() => onMouseOver(rowIdx, colIdx)}
-                            onMouseUp={() => onMouseUp(rowIdx, colIdx)}
+                            onMouseDown={() =>
+                                onCellMouseDownInternal(rowIdx, colIdx)
+                            }
+                            onMouseOver={() => onCellMouseOver(rowIdx, colIdx)}
+                            onMouseOut={onCellMouseOut}
+                            onMouseUp={(e) =>
+                                onCellMouseUpInternal(e, rowIdx, colIdx)
+                            }
                         />
                     ))}
                 </div>

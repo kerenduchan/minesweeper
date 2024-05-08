@@ -6,43 +6,39 @@ import { SmileyButton } from './SmileyButton'
 export function Game() {
     const [game, setGame] = useState(gameService.getGame())
 
-    function onRestartGame() {
+    function onResetGame() {
         gameService.resetGame()
         setGame(gameService.getGame())
     }
 
-    function onMouseDown(rowIdx, colIdx) {
-        setCellMouseDown([rowIdx, colIdx])
-    }
-
-    function onMouseOver(rowIdx, colIdx) {
-        if (game.cellMouseDown) {
-            setCellMouseDown([rowIdx, colIdx])
-        }
-    }
-
-    function onMouseUp(rowIdx, colIdx) {
-        if (rowIdx === undefined) {
-            gameService.setCellMouseDown(null)
-        } else {
-            gameService.exposeCell(rowIdx, colIdx)
-        }
+    function onCellMouseDown() {
+        gameService.setGameStatus('danger')
         setGame(gameService.getGame())
     }
 
-    function setCellMouseDown(val) {
-        gameService.setCellMouseDown(val)
+    function onCellMouseUp(rowIdx, colIdx) {
+        gameService.exposeCell(rowIdx, colIdx)
         setGame(gameService.getGame())
     }
+
+    function onBodyMouseUp() {
+        gameService.setGameStatus('idle')
+        setGame(gameService.getGame())
+    }
+
+    // function setCellMouseDown(val) {
+    //     gameService.setCellMouseDown(val)
+    //     setGame(gameService.getGame())
+    // }
 
     return (
         <div className="game">
-            <SmileyButton game={game} onClick={onRestartGame} />
+            <SmileyButton game={game} onClick={onResetGame} />
             <Board
                 game={game}
-                onMouseDown={onMouseDown}
-                onMouseOver={onMouseOver}
-                onMouseUp={onMouseUp}
+                onCellMouseDown={onCellMouseDown}
+                onCellMouseUp={onCellMouseUp}
+                onBodyMouseUp={onBodyMouseUp}
             />
         </div>
     )
