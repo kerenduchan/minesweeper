@@ -39,6 +39,10 @@ export function Board({ game, onCellMouseDown, onCellMouseUp, onBodyMouseUp }) {
         }
     }
 
+    function onCellMouseOut() {
+        setMouseDownCell(null)
+    }
+
     function getImg(rowIdx, colIdx) {
         let cell = gameService.getGameCell(rowIdx, colIdx)
 
@@ -67,6 +71,7 @@ export function Board({ game, onCellMouseDown, onCellMouseUp, onBodyMouseUp }) {
                                 onCellMouseDownInternal(rowIdx, colIdx)
                             }
                             onMouseOver={() => onCellMouseOver(rowIdx, colIdx)}
+                            onMouseOut={onCellMouseOut}
                             onMouseUp={(e) =>
                                 onCellMouseUpInternal(e, rowIdx, colIdx)
                             }
