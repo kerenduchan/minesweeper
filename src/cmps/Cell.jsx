@@ -42,14 +42,14 @@ export function Cell({ game, rowIdx, colIdx, onMouseUp, onMouseDown }) {
     }
 
     return (
-        <img
+        <button
             className="cell"
-            draggable="false"
-            src={getImg()}
             onMouseDown={onMouseDownInternal}
             onMouseOver={onMouseOver}
             onMouseOut={onMouseOut}
             onMouseUp={onMouseUpInternal}
-        />
+        >
+            <img draggable="false" src={getImg()} />
+        </button>
     )
 }
