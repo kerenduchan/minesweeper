@@ -53,6 +53,10 @@ export function Game() {
     }
 
     function onRightMouseDown(rowIdx, colIdx) {
+        if (gameService.isGameOver()) {
+            return
+        }
+
         gameService.markCell(rowIdx, colIdx)
         loadGame()
     }
