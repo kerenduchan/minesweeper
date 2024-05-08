@@ -90,16 +90,32 @@ function getGameCell(rowIdx, colIdx) {
     const cellState = cellStates[rowIdx][colIdx]
     const cellSolution = solution[rowIdx][colIdx]
 
-    if (status === 'lost' && cellSolution === 'bb') {
+    if (status === 'lost') {
         // when the game is lost, all bombs are exposed.
         // the bomb that was stepped on, which caused the loss, is red.
-        if (
-            explodedBombCoords[0] == rowIdx &&
-            explodedBombCoords[1] === colIdx
-        ) {
-            return 'br'
+        // a non-bomb cell that was flagged is displayed as a bomb with a red x.
+        // a bomb cell that was flagged is displayed as a flag.
+
+        if (cellSolution === 'bb') {
+            if (
+                explodedBombCoords[0] == rowIdx &&
+                explodedBombCoords[1] === colIdx
+            ) {
+                // the bomb that was stepped on, which caused the loss, is red
+                return 'br'
+            }
+            if (cellState === 'fl') {
+                // a bomb cell that was flagged is displayed as a flag.
+                return 'fl'
+            }
+            // expose the bomb
+            return 'bb'
         }
-        return 'bb'
+        if (cellState === 'fl') {
+            // a non-bomb cell that was flagged is displayed as a bomb with
+            // a red x.
+            return 'bx'
+        }
     }
 
     // exposed cell
