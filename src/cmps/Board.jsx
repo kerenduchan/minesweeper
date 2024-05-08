@@ -1,24 +1,7 @@
-import { useEffect, useCallback } from 'react'
 import { Cell } from './Cell'
 
-export function Board({ game, onCellMouseDown, onCellMouseUp, onBodyMouseUp }) {
-    const { status, solution } = game
-
-    useEffect(() => {
-        document.addEventListener('mouseup', onBodyMouseUpInternal)
-        return () => {
-            document.removeEventListener('mouseup', onBodyMouseUpInternal)
-        }
-    }, [])
-
-    const onBodyMouseUpInternal = useCallback(() => {
-        onBodyMouseUp()
-    })
-
-    function onCellMouseUpInternal(e, rowIdx, colIdx) {
-        e.stopPropagation()
-        onCellMouseUp(rowIdx, colIdx)
-    }
+export function Board({ game, onCellMouseDown, onCellMouseUp }) {
+    const { solution } = game
 
     return (
         <div className="board">
@@ -31,9 +14,7 @@ export function Board({ game, onCellMouseDown, onCellMouseUp, onBodyMouseUp }) {
                             rowIdx={rowIdx}
                             colIdx={colIdx}
                             onMouseDown={() => onCellMouseDown(rowIdx, colIdx)}
-                            onMouseUp={(e) =>
-                                onCellMouseUpInternal(e, rowIdx, colIdx)
-                            }
+                            onMouseUp={(e) => onCellMouseUp(e, rowIdx, colIdx)}
                         />
                     ))}
                 </div>

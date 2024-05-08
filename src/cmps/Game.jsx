@@ -1,10 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { gameService } from '../services/game.service'
 import { Board } from './Board'
 import { SmileyButton } from './SmileyButton'
 
 export function Game() {
     const [game, setGame] = useState(gameService.getGame())
+
+    useEffect(() => {
+        document.addEventListener('mouseup', onBodyMouseUp)
+        return () => {
+            document.removeEventListener('mouseup', onBodyMouseUp)
+        }
+    }, [])
+
+    const onBodyMouseUp = useCallback(() => {
+        gameService.setGameStatus('idle')
+        setGame(gameService.getGame())
+    })
 
     function onResetGame() {
         gameService.resetGame()
@@ -16,13 +28,9 @@ export function Game() {
         setGame(gameService.getGame())
     }
 
-    function onCellMouseUp(rowIdx, colIdx) {
+    function onCellMouseUp(e, rowIdx, colIdx) {
+        e.stopPropagation()
         gameService.exposeCell(rowIdx, colIdx)
-        setGame(gameService.getGame())
-    }
-
-    function onBodyMouseUp() {
-        gameService.setGameStatus('idle')
         setGame(gameService.getGame())
     }
 
@@ -33,7 +41,6 @@ export function Game() {
                 game={game}
                 onCellMouseDown={onCellMouseDown}
                 onCellMouseUp={onCellMouseUp}
-                onBodyMouseUp={onBodyMouseUp}
             />
         </div>
     )
