@@ -5,9 +5,10 @@ export function Cell({
     rowIdx,
     colIdx,
     mouseDownCell,
-    onMouseDown,
+    onMouseLeftDown,
     onMouseOver,
     onMouseUp,
+    onMouseRightDown,
 }) {
     const [isMouseDownOnCell, setIsMouseDownOnCell] = useState(false)
 
@@ -18,6 +19,22 @@ export function Cell({
                 colIdx === mouseDownCell[1]
         )
     }, [mouseDownCell])
+
+    function onMouseDown(e) {
+        switch (e.button) {
+            case 0:
+                // left-click
+                onMouseLeftDown()
+                break
+            case 2:
+                onMouseRightDown()
+                break
+        }
+    }
+
+    function onContextMenu(e) {
+        e.preventDefault()
+    }
 
     function getImg() {
         let cell = gameService.getGameCell(rowIdx, colIdx)
@@ -34,6 +51,7 @@ export function Cell({
             onMouseDown={onMouseDown}
             onMouseOver={onMouseOver}
             onMouseUp={onMouseUp}
+            onContextMenu={onContextMenu}
         >
             <img draggable="false" src={getImg()} />
         </button>

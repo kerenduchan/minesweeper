@@ -38,6 +38,11 @@ export function Game() {
         setGame(gameService.getGame())
     }
 
+    function onCellMark(rowIdx, colIdx) {
+        gameService.markCell(rowIdx, colIdx)
+        setGame(gameService.getGame())
+    }
+
     return (
         <div className="game">
             <SmileyButton game={game} onClick={onResetGame} />
@@ -45,6 +50,7 @@ export function Game() {
                 game={game}
                 onCellMouseDown={onCellMouseDown}
                 onCellMouseUp={onCellMouseUp}
+                onCellMark={onCellMark}
             />
         </div>
     )

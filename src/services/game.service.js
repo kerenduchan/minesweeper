@@ -5,6 +5,7 @@ export const gameService = {
     getGameCell,
     isGameOver,
     exposeCell,
+    markCell,
 }
 
 // GAME MODEL
@@ -93,11 +94,32 @@ function getGameCell(rowIdx, colIdx) {
         return 'bb'
     }
     // return the cell's solution if exposed, otherwise return unexposed.
-    return cellState === 'ex' ? cellSolution : 'un'
+    return cellState === 'ex' ? cellSolution : cellState
 }
 
 function isGameOver() {
     return ['lost', 'won'].includes(gGame.status)
+}
+
+function markCell(rowIdx, colIdx) {
+    const curCellState = gGame.cellStates[rowIdx][colIdx]
+    let newCellState
+    switch (curCellState) {
+        case 'un':
+            newCellState = 'fl'
+            break
+        case 'fl':
+            newCellState = 'un'
+            break
+    }
+
+    if (!newCellState) {
+        return
+    }
+
+    const newGame = { ...gGame, cellStates: structuredClone(gGame.cellStates) }
+    newGame.cellStates[rowIdx][colIdx] = newCellState
+    gGame = newGame
 }
 
 function _exposeCell(game, rowIdx, colIdx) {
