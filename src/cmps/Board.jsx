@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Cell } from './Cell'
+import { gameService } from '../services/game.service'
 
 export function Board({ game, onCellMouseDown, onCellMouseUp }) {
     const { solution, status } = game
@@ -7,6 +8,10 @@ export function Board({ game, onCellMouseDown, onCellMouseUp }) {
     const [mouseDownCell, setMouseDownCell] = useState(null)
 
     function onCellMouseDownInternal(rowIdx, colIdx) {
+        if (gameService.isGameOver()) {
+            return
+        }
+
         setMouseDownCell([rowIdx, colIdx])
         onCellMouseDown(rowIdx, colIdx)
     }
@@ -27,6 +32,9 @@ export function Board({ game, onCellMouseDown, onCellMouseUp }) {
     }
 
     function onBoardMouseOut() {
+        if (gameService.isGameOver()) {
+            return
+        }
         setMouseDownCell(null)
     }
 

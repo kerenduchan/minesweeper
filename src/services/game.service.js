@@ -3,6 +3,7 @@ export const gameService = {
     resetGame,
     setGameStatus,
     getGameCell,
+    isGameOver,
     exposeCell,
 }
 
@@ -93,6 +94,10 @@ function getGameCell(rowIdx, colIdx) {
     }
     // return the cell's solution if exposed, otherwise return unexposed.
     return cellState === 'ex' ? cellSolution : 'un'
+}
+
+function isGameOver() {
+    return ['lost', 'won'].includes(gGame.status)
 }
 
 function _exposeCell(game, rowIdx, colIdx) {

@@ -14,6 +14,10 @@ export function Game() {
     }, [])
 
     const onBodyMouseUp = useCallback(() => {
+        if (gameService.isGameOver()) {
+            return
+        }
+
         gameService.setGameStatus('idle')
         setGame(gameService.getGame())
     })
