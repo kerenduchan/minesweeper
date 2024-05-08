@@ -6,7 +6,7 @@ export const gameService = {
     isGameOver,
     exposeCell,
     markCell,
-    setTentativeCoords,
+    setDangerCoords,
 }
 
 // GAME MODEL
@@ -28,8 +28,8 @@ export const gameService = {
 // 'qq' = unexposed and marked with a question mark
 // 'ex' = exposed
 
-// tentativeCoords:
-// Coordinates of the tentative cell - mouse down was clicked, mouse is
+// dangerCoords:
+// Coordinates of the danger cell - mouse down was clicked, mouse is
 // currently hovering over this cell, no mouse up yet)
 
 // explodedBombCoords:
@@ -61,7 +61,7 @@ function resetGame() {
             ['un', 'un', 'un', 'un'],
         ],
 
-        tentativeCoords: null,
+        dangerCoords: null,
         explodedBombCoords: null,
     }
 }
@@ -84,13 +84,8 @@ function exposeCell(rowIdx, colIdx) {
 }
 
 function getGameCell(rowIdx, colIdx) {
-    const {
-        status,
-        solution,
-        cellStates,
-        tentativeCoords,
-        explodedBombCoords,
-    } = gGame
+    const { status, solution, cellStates, dangerCoords, explodedBombCoords } =
+        gGame
 
     const cellState = cellStates[rowIdx][colIdx]
     const cellSolution = solution[rowIdx][colIdx]
@@ -112,11 +107,11 @@ function getGameCell(rowIdx, colIdx) {
         return cellSolution
     }
 
-    // tentative cell
+    // danger cell
     if (
-        tentativeCoords &&
-        tentativeCoords[0] === rowIdx &&
-        tentativeCoords[1] === colIdx
+        dangerCoords &&
+        dangerCoords[0] === rowIdx &&
+        dangerCoords[1] === colIdx
     ) {
         switch (cellState) {
             case 'un':
@@ -154,11 +149,11 @@ function markCell(rowIdx, colIdx) {
     gGame = newGame
 }
 
-function setTentativeCoords(coords) {
+function setDangerCoords(coords) {
     gGame = {
         ...gGame,
         status: 'danger',
-        tentativeCoords: coords,
+        dangerCoords: coords,
     }
 }
 

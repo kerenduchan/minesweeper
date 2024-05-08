@@ -31,7 +31,7 @@ export function Game() {
         if (gameService.isGameOver()) {
             return
         }
-        gameService.setTentativeCoords([rowIdx, colIdx])
+        gameService.setDangerCoords([rowIdx, colIdx])
         loadGame()
     }
 
@@ -39,7 +39,7 @@ export function Game() {
         if (game.status !== 'danger') {
             return
         }
-        gameService.setTentativeCoords([rowIdx, colIdx])
+        gameService.setDangerCoords([rowIdx, colIdx])
         loadGame()
     }
 
@@ -61,7 +61,7 @@ export function Game() {
         if (game.status !== 'danger') {
             return
         }
-        gameService.setTentativeCoords(null)
+        gameService.setDangerCoords(null)
         loadGame()
     }
     function loadGame() {
