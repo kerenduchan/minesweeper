@@ -5,7 +5,7 @@ import { SmileyButton } from './SmileyButton'
 
 export function Game() {
     const [game, setGame] = useState(gameService.getGame())
-    console.log(game.status)
+
     useEffect(() => {
         document.addEventListener('mouseup', onBodyMouseUp)
         return () => {
