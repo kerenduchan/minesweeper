@@ -1,19 +1,19 @@
 .smiley-button {
     @include clear-button-styling;
-    background-image: url(/public/smileys/smiley-happy-unpressed.svg);
+    background-image: url(/smileys/smiley-happy-unpressed.svg);
     background-repeat: no-repeat;
     height: 26px;
     width: 26px;
 
     &.smiley-scared {
-        background-image: url(/public/smileys/smiley-scared.svg);
+        background-image: url(/smileys/smiley-scared.svg);
     }
 
     &.smiley-sad {
-        background-image: url(/public/smileys/smiley-sad.svg);
+        background-image: url(/smileys/smiley-sad.svg);
     }
 
     &:active:hover {
-        background-image: url(/public/smileys/smiley-happy-pressed.svg);
+        background-image: url(/smileys/smiley-happy-pressed.svg);
     }
 }
