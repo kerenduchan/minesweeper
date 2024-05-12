@@ -18,7 +18,7 @@ export function Game() {
             return
         }
 
-        gameService.setGameStatus('idle')
+        gameService.resetGameStatus()
         setGame(gameService.getGame())
     })
 
@@ -48,12 +48,7 @@ export function Game() {
         if (game.status !== 'danger') {
             return
         }
-        if (game.cellStates[rowIdx][colIdx] === 'fl') {
-            // don't expose a flagged cell
-            gameService.setGameStatus('idle')
-        } else {
-            gameService.exposeCell(rowIdx, colIdx)
-        }
+        gameService.exposeCell(rowIdx, colIdx)
         loadGame()
     }
 

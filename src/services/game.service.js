@@ -1,7 +1,7 @@
 export const gameService = {
     getGame,
     resetGame,
-    setGameStatus,
+    resetGameStatus,
     getGameCell,
     isGameOver,
     exposeCell,
@@ -66,20 +66,36 @@ function resetGame() {
     }
 }
 
-function setGameStatus(status) {
-    gGame = { ...gGame, status }
+function resetGameStatus() {
+    gGame = { ...gGame, status: 'idle' }
 }
 
 function exposeCell(rowIdx, colIdx) {
-    const newGame = structuredClone(gGame)
+    const cellState = gGame.cellStates[rowIdx][colIdx]
 
-    _exposeCell(newGame, rowIdx, colIdx)
-    newGame.status = 'idle'
-    if (newGame.solution[rowIdx][colIdx] === 'bb') {
-        newGame.status = 'lost'
-        newGame.explodedBombCoords = [rowIdx, colIdx]
+    // don't expose a flagged cell or an exposed cell
+    if (['fl', 'ex'].includes(cellState)) {
+        gGame = { ...gGame, status: 'idle' }
+        return
     }
 
+    // handle the case where a bomb was stepped on
+    const cellSolution = gGame.solution[rowIdx][colIdx]
+    if (cellSolution === 'bb') {
+        gGame = {
+            ...gGame,
+            status: 'lost',
+            explodedBombCoords: [rowIdx, colIdx],
+        }
+        return
+    }
+
+    // recursively expose this cell and its neighbors as needed
+    const newGame = structuredClone(gGame)
+    _exposeCell(newGame, rowIdx, colIdx)
+
+    // TODO: check for a win
+    newGame.status = 'idle'
     gGame = newGame
 }
 
