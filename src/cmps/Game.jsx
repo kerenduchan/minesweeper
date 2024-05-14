@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { gameService } from '../services/game.service'
 import { Board } from './Board'
-import { SmileyButton } from './SmileyButton'
+import { BoardTopbar } from './BoardTopbar'
 
 export function Game() {
     const [game, setGame] = useState(gameService.getGame())
@@ -82,7 +82,7 @@ export function Game() {
             </div>
 
             <div className="inner-container">
-                <SmileyButton game={game} onClick={onResetGame} />
+                <BoardTopbar game={game} onResetGame={onResetGame} />
                 <Board
                     game={game}
                     onLeftMouseDown={onLeftMouseDown}
