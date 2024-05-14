@@ -74,15 +74,24 @@ export function Game() {
 
     return (
         <div className="game">
-            <SmileyButton game={game} onClick={onResetGame} />
-            <Board
-                game={game}
-                onLeftMouseDown={onLeftMouseDown}
-                onMouseOver={onMouseOver}
-                onMouseUp={onMouseUp}
-                onRightMouseDown={onRightMouseDown}
-                onBoardMouseOut={onBoardMouseOut}
-            />
+            <div className="outer-container"></div>
+
+            <div className="corner-overlay">
+                <div className="corner-tr" />
+                <div className="corner-bl" />
+            </div>
+
+            <div className="inner-container">
+                <SmileyButton game={game} onClick={onResetGame} />
+                <Board
+                    game={game}
+                    onLeftMouseDown={onLeftMouseDown}
+                    onMouseOver={onMouseOver}
+                    onMouseUp={onMouseUp}
+                    onRightMouseDown={onRightMouseDown}
+                    onBoardMouseOut={onBoardMouseOut}
+                />
+            </div>
         </div>
     )
 }

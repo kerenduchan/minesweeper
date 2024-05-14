@@ -1,5 +1,45 @@
 .game {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    justify-content: center;
+
+    .outer-container {
+        grid-area: 1 / 1;
+        outline: calc(1px * var(--scale)) solid var(--darkest-grey);
+        border-top: var(--outer-border-bevel-size) solid white;
+        border-bottom: var(--outer-border-bevel-size) solid var(--dark-grey);
+        border-inline-end: var(--outer-border-bevel-size) solid var(--dark-grey);
+        border-inline-start: var(--outer-border-bevel-size) solid white;
+        padding: var(--outer-border-size);
+        background-color: var(--light-grey);
+    }
+
+    .corner-overlay {
+        grid-area: 1 / 1;
+        position: relative;
+
+        .corner-tr {
+            position: absolute;
+            top: 0;
+            right: 0;
+            @include corner-tr-bl;
+        }
+
+        .corner-bl {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            @include corner-tr-bl;
+        }
+    }
+
+    .inner-container {
+        grid-area: 1 / 1;
+        padding: calc(
+            var(--outer-border-bevel-size) + var(--outer-border-size)
+        );
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }

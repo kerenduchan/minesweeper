@@ -8,3 +8,11 @@
     border-radius: 0;
     appearance: none;
 }
+
+@mixin corner-tr-bl {
+    height: var(--outer-border-bevel-size);
+    aspect-ratio: 1 / 1;
+    background-image: url(/borders/corner-tr-bl.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}

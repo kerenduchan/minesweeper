@@ -2,4 +2,13 @@
     --scale: 2;
     --orig-cell-size: 16px;
     --orig-smiley-size: 26px;
+    --orig-border-size: 3px;
+
+    --outer-border-bevel-size: calc(var(--orig-border-size) * var(--scale));
+    --outer-border-size: calc(var(--orig-border-size) * var(--scale));
+
+    // colors
+    --light-grey: #c0c0c0;
+    --dark-grey: #808080;
+    --darkest-grey: #707070;
 }
