@@ -67,7 +67,7 @@ function resetGame() {
 }
 
 function resetGameStatus() {
-    gGame = { ...gGame, status: 'idle' }
+    gGame = { ...gGame, status: 'idle', dangerCoords: null }
 }
 
 function exposeCell(rowIdx, colIdx) {
@@ -75,7 +75,7 @@ function exposeCell(rowIdx, colIdx) {
 
     // don't expose a flagged cell or an exposed cell
     if (['fl', 'ex'].includes(cellState)) {
-        gGame = { ...gGame, status: 'idle' }
+        resetGameStatus()
         return
     }
 
