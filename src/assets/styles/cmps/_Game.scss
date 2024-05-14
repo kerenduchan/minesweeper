@@ -4,12 +4,12 @@
 
     > .outer-container {
         grid-area: 1 / 1;
-        outline: calc(1px * var(--scale)) solid var(--darkest-grey);
-        border-top: var(--outer-border-bevel-size) solid white;
-        border-bottom: var(--outer-border-bevel-size) solid var(--dark-grey);
-        border-inline-end: var(--outer-border-bevel-size) solid var(--dark-grey);
-        border-inline-start: var(--outer-border-bevel-size) solid white;
-        padding: var(--outer-border-size);
+        outline: 1rem solid var(--darkest-grey);
+        border-top: var(--game-bevel) solid white;
+        border-bottom: var(--game-bevel) solid var(--dark-grey);
+        border-inline-end: var(--game-bevel) solid var(--dark-grey);
+        border-inline-start: var(--game-bevel) solid white;
+        padding: var(--game-padding);
         background-color: var(--light-grey);
     }
 
@@ -30,9 +30,7 @@
 
     > .inner-container {
         grid-area: 1 / 1;
-        padding: calc(
-            var(--outer-border-bevel-size) + var(--outer-border-size)
-        );
+        padding: calc(var(--game-bevel) + var(--game-padding));
 
         z-index: 2;
     }

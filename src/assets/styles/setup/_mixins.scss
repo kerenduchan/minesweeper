@@ -10,7 +10,7 @@
 }
 
 @mixin corner-tr-bl {
-    height: var(--outer-border-bevel-size);
+    height: var(--game-bevel);
     aspect-ratio: 1 / 1;
     background-image: url(/borders/corner-tr-bl.svg);
     background-repeat: no-repeat;
@@ -18,7 +18,7 @@
 }
 
 @mixin topbar-bevel-tr-bl {
-    height: var(--board-topbar-bevel-size);
+    height: var(--board-topbar-bevel);
     aspect-ratio: 1 / 1;
     background-image: url(/borders/topbar-bevel-tr-bl.svg);
     background-repeat: no-repeat;

@@ -1,22 +1,18 @@
 :root {
-    --scale: 2;
-    --orig-cell-size: 16px;
-    --orig-smiley-size: 26px;
-    --orig-border-size: 3px;
+    // this affects every unit that is specified with "rem"
+    // change this to scale the entire game.
+    font-size: 2px;
 
-    --orig-topbar-bevel-size: 2px;
-    --orig-board-topbar-padding: 4px;
+    --cell-size: 16rem;
+    --smiley-size: 26rem;
 
-    --outer-border-bevel-size: calc(var(--orig-border-size) * var(--scale));
-    --outer-border-size: calc(var(--orig-border-size) * var(--scale));
+    // game bevel + padding
+    --game-bevel: 3rem;
+    --game-padding: 6rem;
 
-    --board-topbar-bevel-size: calc(
-        var(--orig-topbar-bevel-size) * var(--scale)
-    );
-
-    --board-topbar-padding: calc(
-        var(--orig-board-topbar-padding) * var(--scale)
-    );
+    // board topbar bevel + padding
+    --board-topbar-bevel: 2rem;
+    --board-topbar-padding: 4rem;
 
     // colors
     --light-grey: #c0c0c0;

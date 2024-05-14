@@ -5,11 +5,10 @@
     > .outer-container {
         justify-self: stretch;
         grid-area: 1 / 1;
-        border-top: var(--board-topbar-bevel-size) solid var(--dark-grey);
-        border-bottom: var(--board-topbar-bevel-size) solid white;
-        border-inline-end: var(--board-topbar-bevel-size) solid white;
-        border-inline-start: var(--board-topbar-bevel-size) solid
-            var(--dark-grey);
+        border-top: var(--board-topbar-bevel) solid var(--dark-grey);
+        border-bottom: var(--board-topbar-bevel) solid white;
+        border-inline-end: var(--board-topbar-bevel) solid white;
+        border-inline-start: var(--board-topbar-bevel) solid var(--dark-grey);
     }
 
     > .corner-overlay {
@@ -33,9 +32,7 @@
 
     > .inner-container {
         grid-area: 1 / 1;
-        padding: calc(
-            var(--board-topbar-bevel-size) + var(--board-topbar-padding)
-        );
+        padding: calc(var(--board-topbar-bevel) + var(--board-topbar-padding));
         z-index: 2;
         display: flex;
         justify-content: center;
