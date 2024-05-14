@@ -2,8 +2,9 @@
     @include clear-button-styling;
     background-image: url(/smileys/smiley-happy-unpressed.svg);
     background-repeat: no-repeat;
-    height: 26px;
-    width: 26px;
+    height: calc(var(--orig-smiley-size) * var(--scale));
+    aspect-ratio: 1 / 1;
+    background-size: cover;
 
     &.smiley-scared {
         background-image: url(/smileys/smiley-scared.svg);
