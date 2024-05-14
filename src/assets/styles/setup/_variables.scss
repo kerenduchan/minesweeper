@@ -4,8 +4,19 @@
     --orig-smiley-size: 26px;
     --orig-border-size: 3px;
 
+    --orig-topbar-bevel-size: 2px;
+    --orig-board-topbar-padding: 4px;
+
     --outer-border-bevel-size: calc(var(--orig-border-size) * var(--scale));
     --outer-border-size: calc(var(--orig-border-size) * var(--scale));
+
+    --board-topbar-bevel-size: calc(
+        var(--orig-topbar-bevel-size) * var(--scale)
+    );
+
+    --board-topbar-padding: calc(
+        var(--orig-board-topbar-padding) * var(--scale)
+    );
 
     // colors
     --light-grey: #c0c0c0;

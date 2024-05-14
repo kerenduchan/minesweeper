@@ -74,7 +74,7 @@ export function Game() {
 
     return (
         <div className="game">
-            <div className="outer-container"></div>
+            <div className="outer-container" />
 
             <div className="corner-overlay">
                 <div className="corner-tr" />

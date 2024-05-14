@@ -2,7 +2,7 @@
     display: grid;
     justify-content: center;
 
-    .outer-container {
+    > .outer-container {
         grid-area: 1 / 1;
         outline: calc(1px * var(--scale)) solid var(--darkest-grey);
         border-top: var(--outer-border-bevel-size) solid white;
@@ -13,34 +13,27 @@
         background-color: var(--light-grey);
     }
 
-    .corner-overlay {
+    > .corner-overlay {
         grid-area: 1 / 1;
         position: relative;
 
         .corner-tr {
-            position: absolute;
-            top: 0;
-            right: 0;
+            @include absolute-tr;
             @include corner-tr-bl;
         }
 
         .corner-bl {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+            @include absolute-bl;
             @include corner-tr-bl;
         }
     }
 
-    .inner-container {
+    > .inner-container {
         grid-area: 1 / 1;
         padding: calc(
             var(--outer-border-bevel-size) + var(--outer-border-size)
         );
 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         z-index: 2;
     }
 }

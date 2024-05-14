@@ -16,3 +16,23 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+@mixin topbar-bevel-tr-bl {
+    height: var(--board-topbar-bevel-size);
+    aspect-ratio: 1 / 1;
+    background-image: url(/borders/topbar-bevel-tr-bl.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@mixin absolute-tr {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+@mixin absolute-bl {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

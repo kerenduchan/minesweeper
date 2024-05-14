@@ -1,0 +1,43 @@
+.board-topbar {
+    display: grid;
+    margin-bottom: 10px;
+
+    > .outer-container {
+        justify-self: stretch;
+        grid-area: 1 / 1;
+        border-top: var(--board-topbar-bevel-size) solid var(--dark-grey);
+        border-bottom: var(--board-topbar-bevel-size) solid white;
+        border-inline-end: var(--board-topbar-bevel-size) solid white;
+        border-inline-start: var(--board-topbar-bevel-size) solid
+            var(--dark-grey);
+    }
+
+    > .corner-overlay {
+        grid-area: 1 / 1;
+        position: relative;
+
+        .corner-tr {
+            position: absolute;
+            top: 0;
+            right: 0;
+            @include topbar-bevel-tr-bl;
+        }
+
+        .corner-bl {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            @include topbar-bevel-tr-bl;
+        }
+    }
+
+    > .inner-container {
+        grid-area: 1 / 1;
+        padding: calc(
+            var(--board-topbar-bevel-size) + var(--board-topbar-padding)
+        );
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+    }
+}
