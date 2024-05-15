@@ -3,6 +3,7 @@
 
     > .bevelled-box > .content {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
+        gap: 6rem;
     }
 }
