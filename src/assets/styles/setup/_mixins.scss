@@ -10,9 +10,7 @@
 }
 
 @mixin corner-tr-bl {
-    height: var(--game-bevel);
     aspect-ratio: 1 / 1;
-    background-image: url(/borders/corner-tr-bl.svg);
     background-repeat: no-repeat;
     background-size: cover;
 }

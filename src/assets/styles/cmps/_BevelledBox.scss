@@ -1,0 +1,48 @@
+body {
+    background-color: pink;
+}
+
+.bevelled-box {
+    display: grid;
+    justify-content: center;
+
+    > .bevel {
+        grid-area: 1 / 1;
+        border-style: solid;
+        background-color: var(--light-grey);
+
+        &.outset {
+            border-top-color: white;
+            border-bottom-color: var(--dark-grey);
+            border-right-color: var(--dark-grey);
+            border-left-color: white;
+        }
+
+        &.inset {
+            border-top-color: var(--dark-grey);
+            border-bottom-color: white;
+            border-right-color: white;
+            border-left-color: var(--dark-grey);
+        }
+    }
+
+    .corner-overlay {
+        grid-area: 1 / 1;
+        position: relative;
+
+        .corner-tr {
+            @include absolute-tr;
+            @include corner-tr-bl;
+        }
+
+        .corner-bl {
+            @include absolute-bl;
+            @include corner-tr-bl;
+        }
+    }
+
+    .content {
+        grid-area: 1 / 1;
+        z-index: 2;
+    }
+}

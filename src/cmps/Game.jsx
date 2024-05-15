@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { gameService } from '../services/game.service'
 import { Board } from './Board'
 import { BoardTopbar } from './BoardTopbar'
+import { BevelledBox } from './BevelledBox'
 
 export function Game() {
     const [game, setGame] = useState(gameService.getGame())
@@ -74,14 +75,7 @@ export function Game() {
 
     return (
         <div className="game">
-            <div className="outer-container" />
-
-            <div className="corner-overlay">
-                <div className="corner-tr" />
-                <div className="corner-bl" />
-            </div>
-
-            <div className="inner-container">
+            <BevelledBox isInset={false} bevelWidth={3} padding={6}>
                 <BoardTopbar game={game} onResetGame={onResetGame} />
                 <Board
                     game={game}
@@ -91,7 +85,7 @@ export function Game() {
                     onRightMouseDown={onRightMouseDown}
                     onBoardMouseOut={onBoardMouseOut}
                 />
-            </div>
+            </BevelledBox>
         </div>
     )
 }
