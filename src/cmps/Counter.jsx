@@ -17,7 +17,11 @@ export function Counter({ value, className = '' }) {
         <div className={`counter ${className}`}>
             <BevelledBox isInset={true} bevelWidth={1}>
                 {[0, 1, 2].map((idx) => (
-                    <img className="digit-img" src={getDigitSvg(idx)} />
+                    <img
+                        key={idx}
+                        className="digit-img"
+                        src={getDigitSvg(idx)}
+                    />
                 ))}
             </BevelledBox>
         </div>
