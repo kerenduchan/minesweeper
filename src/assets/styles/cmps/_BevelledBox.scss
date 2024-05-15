@@ -30,12 +30,12 @@
 
         .corner-tr {
             @include absolute-tr;
-            @include corner-tr-bl;
+            @include corner;
         }
 
         .corner-bl {
             @include absolute-bl;
-            @include corner-tr-bl;
+            @include corner;
         }
     }
 

@@ -9,16 +9,8 @@
     appearance: none;
 }
 
-@mixin corner-tr-bl {
+@mixin corner {
     aspect-ratio: 1 / 1;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-@mixin topbar-bevel-tr-bl {
-    height: var(--board-topbar-bevel);
-    aspect-ratio: 1 / 1;
-    background-image: url(/borders/topbar-bevel-tr-bl.svg);
     background-repeat: no-repeat;
     background-size: cover;
 }
