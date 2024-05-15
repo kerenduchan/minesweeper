@@ -1,8 +1,6 @@
 .bevelled-box {
     display: grid;
     grid-template-columns: 1fr;
-    justify-content: center;
-    box-sizing: border-box;
 
     > .bevel {
         grid-area: 1 / 1;
@@ -24,7 +22,7 @@
         }
     }
 
-    .corner-overlay {
+    > .corner-overlay {
         grid-area: 1 / 1;
         position: relative;
 
@@ -39,7 +37,7 @@
         }
     }
 
-    .content {
+    > .content {
         grid-area: 1 / 1;
         z-index: 2;
     }
