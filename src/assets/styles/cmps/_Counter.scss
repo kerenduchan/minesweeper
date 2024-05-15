@@ -1,0 +1,11 @@
+.counter {
+    > .bevelled-box > .bevel {
+        background-color: var(--dark-grey);
+    }
+
+    .digit-img {
+        height: var(--counter-size);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
