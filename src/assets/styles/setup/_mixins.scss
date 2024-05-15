@@ -8,3 +8,21 @@
     border-radius: 0;
     appearance: none;
 }
+
+@mixin corner {
+    aspect-ratio: 1 / 1;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@mixin absolute-tr {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+@mixin absolute-bl {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

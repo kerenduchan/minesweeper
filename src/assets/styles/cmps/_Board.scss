@@ -1,4 +1,8 @@
 .board {
+    > .bevelled-box > .bevel {
+        background-color: var(--dark-grey);
+    }
+
     .row {
         display: flex;
     }

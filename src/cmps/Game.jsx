@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { gameService } from '../services/game.service'
 import { Board } from './Board'
-import { SmileyButton } from './SmileyButton'
+import { BoardTopbar } from './BoardTopbar'
+import { BevelledBox } from './BevelledBox'
 
 export function Game() {
     const [game, setGame] = useState(gameService.getGame())
@@ -74,15 +75,17 @@ export function Game() {
 
     return (
         <div className="game">
-            <SmileyButton game={game} onClick={onResetGame} />
-            <Board
-                game={game}
-                onLeftMouseDown={onLeftMouseDown}
-                onMouseOver={onMouseOver}
-                onMouseUp={onMouseUp}
-                onRightMouseDown={onRightMouseDown}
-                onBoardMouseOut={onBoardMouseOut}
-            />
+            <BevelledBox isInset={false} bevelWidth={3} padding={6}>
+                <BoardTopbar game={game} onResetGame={onResetGame} />
+                <Board
+                    game={game}
+                    onLeftMouseDown={onLeftMouseDown}
+                    onMouseOver={onMouseOver}
+                    onMouseUp={onMouseUp}
+                    onRightMouseDown={onRightMouseDown}
+                    onBoardMouseOut={onBoardMouseOut}
+                />
+            </BevelledBox>
         </div>
     )
 }

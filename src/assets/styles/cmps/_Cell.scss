@@ -1,7 +1,7 @@
 .cell {
     @include clear-button-styling;
     user-select: none;
-    height: calc(var(--orig-cell-size) * var(--scale));
+    height: var(--cell-size);
 
     img {
         height: 100%;
