@@ -1,4 +1,8 @@
 .game {
     display: grid;
     justify-content: center;
+
+    > .bevelled-box {
+        outline: 0.5rem solid var(--darkest-grey);
+    }
 }
