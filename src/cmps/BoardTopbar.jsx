@@ -1,18 +1,12 @@
+import { BevelledBox } from './BevelledBox'
 import { SmileyButton } from './SmileyButton'
 
 export function BoardTopbar({ game, onResetGame }) {
     return (
         <div className="board-topbar">
-            <div className="outer-container" />
-
-            <div className="corner-overlay">
-                <div className="corner-tr" />
-                <div className="corner-bl" />
-            </div>
-
-            <div className="inner-container">
+            <BevelledBox isInset={true} bevelWidth={2} padding={4}>
                 <SmileyButton game={game} onClick={onResetGame} />
-            </div>
+            </BevelledBox>
         </div>
     )
 }

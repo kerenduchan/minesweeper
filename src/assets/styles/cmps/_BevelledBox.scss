@@ -4,7 +4,9 @@ body {
 
 .bevelled-box {
     display: grid;
+    grid-template-columns: 1fr;
     justify-content: center;
+    box-sizing: border-box;
 
     > .bevel {
         grid-area: 1 / 1;
