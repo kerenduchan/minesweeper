@@ -8,6 +8,7 @@ export const gameService = {
     markCell,
     setDangerCoords,
     getStopwatchValue,
+    getBombCounterValue,
 }
 
 // GAME MODEL
@@ -235,4 +236,26 @@ function getStopwatchValue() {
         return 0
     }
     return Math.floor((Date.now() - startTime) / 1000)
+}
+
+function getBombCounterValue() {
+    return _getBombsCount() - _getFlagsCount()
+}
+
+function _getBombsCount() {
+    return _countCells(gGame.solution, 'bb')
+}
+
+function _getFlagsCount() {
+    return _countCells(gGame.cellStates, 'fl')
+}
+
+function _countCells(matrix, value) {
+    const res = matrix.reduce(
+        (acc, row) =>
+            acc +
+            row.reduce((rowAcc, cell) => rowAcc + (cell === value ? 1 : 0), 0),
+        0
+    )
+    return res
 }
