@@ -7,6 +7,7 @@ export const gameService = {
     exposeCell,
     markCell,
     setDangerCoords,
+    getStopwatchValue,
 }
 
 // GAME MODEL
@@ -71,6 +72,7 @@ function resetGame() {
 
         dangerCoords: null,
         explodedBombCoords: null,
+        startTime: null,
     }
 }
 
@@ -104,6 +106,11 @@ function exposeCell(rowIdx, colIdx) {
 
     // TODO: check for a win
     newGame.status = 'idle'
+
+    if (!newGame.startTime) {
+        newGame.startTime = Date.now()
+    }
+
     gGame = newGame
 }
 
@@ -220,4 +227,12 @@ function _exposeCell(game, rowIdx, colIdx) {
             _exposeCell(game, newRowIdx, newColIdx)
         }
     }
+}
+
+function getStopwatchValue() {
+    const { startTime } = gGame
+    if (!startTime) {
+        return 0
+    }
+    return Math.floor((Date.now() - startTime) / 1000)
 }
