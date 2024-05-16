@@ -15,11 +15,11 @@ export function Game() {
     }, [])
 
     const onBodyMouseUp = useCallback(() => {
-        if (gameService.isGameOver()) {
+        if (gameService.isGameOver() || game.status === 'initial') {
             return
         }
 
-        gameService.resetGameStatus()
+        gameService.cancelDangerStatus()
         setGame(gameService.getGame())
     })
 

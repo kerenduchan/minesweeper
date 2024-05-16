@@ -1,10 +1,17 @@
 export function SmileyButton({ game, onClick }) {
     const { status } = game
 
+    function onClickInternal(e) {
+        e.stopPropagation()
+        onClick()
+    }
+
     function getButtonClassName() {
         switch (status) {
             case 'lost':
                 return 'smiley-sad'
+            case 'won':
+                return 'smiley-sunglasses'
             case 'danger':
                 return 'smiley-scared'
             default:
@@ -15,7 +22,7 @@ export function SmileyButton({ game, onClick }) {
     return (
         <button
             className={`smiley-button ${getButtonClassName()}`}
-            onClick={onClick}
+            onClick={onClickInternal}
         />
     )
 }

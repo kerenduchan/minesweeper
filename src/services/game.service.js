@@ -1,7 +1,7 @@
 export const gameService = {
     getGame,
     resetGame,
-    resetGameStatus,
+    cancelDangerStatus,
     getGameCell,
     isGameOver,
     exposeCell,
@@ -14,10 +14,11 @@ export const gameService = {
 // GAME MODEL
 
 // status:
-// - idle   = game in progress, no win or loss, no mouse down.
-// - danger = mouse down on one of the cells, and no mouse up yet
-// - lost   = game over with a loss (stepped on bomb)
-// - won    =  game over with a win (all non-bomb cells have been exposed)
+// - initial = game is in its initial state - no cell has been exposed yet.
+// - idle    = game in progress, no win or loss, no mouse down.
+// - danger  = mouse down on one of the cells, and no mouse up yet
+// - lost    = game over with a loss (stepped on bomb)
+// - won     = game over with a win (all non-bomb cells have been exposed)
 
 // solution:
 // The cells of the board, if they were all exposed.
@@ -46,19 +47,21 @@ function getGame() {
 }
 
 function resetGame() {
-    gGame = {
-        status: 'idle',
+    const solution = [
+        ['00', '01', 'bb', '01', '00', '00', '00', '00'],
+        ['00', '01', '01', '01', '00', '00', '00', '00'],
+        ['02', '02', '01', '00', '00', '00', '00', '00'],
+        ['bb', 'bb', '01', '00', '01', '01', '01', '00'],
+        ['02', '02', '01', '00', '01', 'bb', '02', '01'],
+        ['00', '00', '00', '00', '01', '03', 'bb', '02'],
+        ['00', '00', '00', '00', '00', '03', 'bb', '03'],
+        ['00', '00', '00', '00', '00', '02', 'bb', '02'],
+    ]
 
-        solution: [
-            ['00', '01', 'bb', '01', '00', '00', '00', '00'],
-            ['00', '01', '01', '01', '00', '00', '00', '00'],
-            ['02', '02', '01', '00', '00', '00', '00', '00'],
-            ['bb', 'bb', '01', '00', '01', '01', '01', '00'],
-            ['02', '02', '01', '00', '01', 'bb', '02', '01'],
-            ['00', '00', '00', '00', '01', '03', 'bb', '02'],
-            ['00', '00', '00', '00', '00', '03', 'bb', '03'],
-            ['00', '00', '00', '00', '00', '02', 'bb', '02'],
-        ],
+    gGame = {
+        status: 'initial',
+
+        solution,
 
         cellStates: [
             ['un', 'un', 'un', 'un', 'un', 'un', 'un', 'un'],
@@ -71,13 +74,14 @@ function resetGame() {
             ['un', 'un', 'un', 'un', 'un', 'un', 'un', 'un'],
         ],
 
+        bombsCount: _countBombs(solution),
         dangerCoords: null,
         explodedBombCoords: null,
         startTime: null,
     }
 }
 
-function resetGameStatus() {
+function cancelDangerStatus() {
     gGame = { ...gGame, status: 'idle', dangerCoords: null }
 }
 
@@ -86,7 +90,7 @@ function exposeCell(rowIdx, colIdx) {
 
     // don't expose a flagged cell or an exposed cell
     if (['fl', 'ex'].includes(cellState)) {
-        resetGameStatus()
+        cancelDangerStatus()
         return
     }
 
@@ -105,11 +109,15 @@ function exposeCell(rowIdx, colIdx) {
     const newGame = structuredClone(gGame)
     _exposeCell(newGame, rowIdx, colIdx)
 
-    // TODO: check for a win
-    newGame.status = 'idle'
-
     if (!newGame.startTime) {
         newGame.startTime = Date.now()
+    }
+
+    const isGameWon = _isGameWon(newGame)
+    newGame.status = isGameWon ? 'won' : 'idle'
+
+    if (isGameWon) {
+        _flagAllBombs(newGame)
     }
 
     gGame = newGame
@@ -235,18 +243,18 @@ function getStopwatchValue() {
     if (!startTime) {
         return 0
     }
-    return Math.floor((Date.now() - startTime) / 1000)
+    return Math.ceil((Date.now() - startTime) / 1000)
 }
 
 function getBombCounterValue() {
-    return _getBombsCount() - _getFlagsCount()
+    return gGame.bombsCount - _countFlags()
 }
 
-function _getBombsCount() {
-    return _countCells(gGame.solution, 'bb')
+function _countBombs(solution) {
+    return _countCells(solution, 'bb')
 }
 
-function _getFlagsCount() {
+function _countFlags() {
     return _countCells(gGame.cellStates, 'fl')
 }
 
@@ -258,4 +266,24 @@ function _countCells(matrix, value) {
         0
     )
     return res
+}
+
+function _isGameWon(game) {
+    const { solution, cellStates } = game
+    return solution.every((row, rowIdx) =>
+        row.every(
+            (cell, colIdx) =>
+                cell === 'bb' || cellStates[rowIdx][colIdx] === 'ex'
+        )
+    )
+}
+
+function _flagAllBombs(game) {
+    game.solution.forEach((row, rowIdx) =>
+        row.forEach((cell, colIdx) => {
+            if (cell === 'bb') {
+                game.cellStates[rowIdx][colIdx] = 'fl'
+            }
+        })
+    )
 }
