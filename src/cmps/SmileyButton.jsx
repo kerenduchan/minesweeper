@@ -1,11 +1,6 @@
 export function SmileyButton({ game, onClick }) {
     const { status } = game
 
-    function onClickInternal(e) {
-        e.stopPropagation()
-        onClick()
-    }
-
     function getButtonClassName() {
         switch (status) {
             case 'lost':
@@ -22,7 +17,7 @@ export function SmileyButton({ game, onClick }) {
     return (
         <button
             className={`smiley-button ${getButtonClassName()}`}
-            onClick={onClickInternal}
+            onClick={onClick}
         />
     )
 }
