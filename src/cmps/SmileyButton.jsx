@@ -5,6 +5,8 @@ export function SmileyButton({ game, onClick }) {
         switch (status) {
             case 'lost':
                 return 'smiley-sad'
+            case 'won':
+                return 'smiley-sunglasses'
             case 'danger':
                 return 'smiley-scared'
             default:

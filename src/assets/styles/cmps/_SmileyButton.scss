@@ -14,6 +14,10 @@
         background-image: url(/smileys/smiley-sad.svg);
     }
 
+    &.smiley-sunglasses {
+        background-image: url(/smileys/smiley-sunglasses.svg);
+    }
+
     &:active:hover {
         background-image: url(/smileys/smiley-happy-pressed.svg);
     }

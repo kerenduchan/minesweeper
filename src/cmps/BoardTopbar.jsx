@@ -1,14 +1,15 @@
 import { BevelledBox } from './BevelledBox'
-import { Counter } from './Counter'
 import { SmileyButton } from './SmileyButton'
+import { BombCounter } from './BombCounter'
+import { Stopwatch } from './Stopwatch'
 
 export function BoardTopbar({ game, onResetGame }) {
     return (
         <div className="board-topbar">
             <BevelledBox isInset={true} bevelWidth={2} padding={4}>
-                <Counter value={7} />
+                <BombCounter game={game} />
                 <SmileyButton game={game} onClick={onResetGame} />
-                <Counter value={0} />
+                <Stopwatch game={game} />
             </BevelledBox>
         </div>
     )
