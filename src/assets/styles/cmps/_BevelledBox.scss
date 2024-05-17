@@ -5,20 +5,20 @@
     > .bevel {
         grid-area: 1 / 1;
         border-style: solid;
-        background-color: var(--light-grey);
+        background-color: var(--grey-1);
 
         &.outset {
             border-top-color: white;
-            border-bottom-color: var(--dark-grey);
-            border-right-color: var(--dark-grey);
+            border-bottom-color: var(--grey-2);
+            border-right-color: var(--grey-2);
             border-left-color: white;
         }
 
         &.inset {
-            border-top-color: var(--dark-grey);
+            border-top-color: var(--grey-2);
             border-bottom-color: white;
             border-right-color: white;
-            border-left-color: var(--dark-grey);
+            border-left-color: var(--grey-2);
         }
     }
 
