@@ -31,6 +31,9 @@ export const gameService = {
 // 'qq' = unexposed and marked with a question mark
 // 'ex' = exposed
 
+// bombsCount:
+// How many bombs there are in the solution of the game.
+
 // dangerCoords:
 // Coordinates of the danger cell - mouse down was clicked, mouse is
 // currently hovering over this cell, no mouse up yet)
@@ -38,6 +41,10 @@ export const gameService = {
 // explodedBombCoords:
 // Coordinates of the bomb that was stepped on that resulted in the game
 // being lost.
+
+// startTime:
+// null if the game hasn't started yet, or the timestamp of when the first
+// cell was exposed.
 
 let gGame
 resetGame()
