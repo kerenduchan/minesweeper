@@ -4,6 +4,7 @@ export const gameService = {
     cancelDangerStatus,
     getGameCell,
     isGameOver,
+    isGameInitial,
     exposeCell,
     markCell,
     setDangerCoords,
@@ -14,7 +15,6 @@ export const gameService = {
 // GAME MODEL
 
 // status:
-// - initial = game is in its initial state - no cell has been exposed yet.
 // - idle    = game in progress, no win or loss, no mouse down.
 // - danger  = mouse down on one of the cells, and no mouse up yet
 // - lost    = game over with a loss (stepped on bomb)
@@ -59,7 +59,7 @@ function resetGame() {
     ]
 
     gGame = {
-        status: 'initial',
+        status: 'idle',
 
         solution,
 
@@ -182,6 +182,11 @@ function getGameCell(rowIdx, colIdx) {
 
 function isGameOver() {
     return ['lost', 'won'].includes(gGame.status)
+}
+
+function isGameInitial() {
+    const { status, startTime } = gGame
+    return status === 'idle' && !startTime
 }
 
 function markCell(rowIdx, colIdx) {
