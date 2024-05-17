@@ -7,7 +7,7 @@ export function Stopwatch({ game }) {
     const intervalId = useRef(null)
 
     useEffect(() => {
-        if (game.status === 'initial') {
+        if (gameService.isGameInitial()) {
             setValue(0)
             stop()
             return

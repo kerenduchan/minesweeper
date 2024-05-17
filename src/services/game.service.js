@@ -4,6 +4,7 @@ export const gameService = {
     cancelDangerStatus,
     getGameCell,
     isGameOver,
+    isGameInitial,
     exposeCell,
     markCell,
     setDangerCoords,
@@ -14,7 +15,6 @@ export const gameService = {
 // GAME MODEL
 
 // status:
-// - initial = game is in its initial state - no cell has been exposed yet.
 // - idle    = game in progress, no win or loss, no mouse down.
 // - danger  = mouse down on one of the cells, and no mouse up yet
 // - lost    = game over with a loss (stepped on bomb)
@@ -31,6 +31,9 @@ export const gameService = {
 // 'qq' = unexposed and marked with a question mark
 // 'ex' = exposed
 
+// bombCount:
+// How many bombs there are in the solution of the game.
+
 // dangerCoords:
 // Coordinates of the danger cell - mouse down was clicked, mouse is
 // currently hovering over this cell, no mouse up yet)
@@ -39,6 +42,10 @@ export const gameService = {
 // Coordinates of the bomb that was stepped on that resulted in the game
 // being lost.
 
+// startTime:
+// null if the game hasn't started yet, or the timestamp of when the first
+// cell was exposed.
+
 let gGame
 resetGame()
 
@@ -46,35 +53,18 @@ function getGame() {
     return gGame
 }
 
-function resetGame() {
-    const solution = [
-        ['00', '01', 'bb', '01', '00', '00', '00', '00'],
-        ['00', '01', '01', '01', '00', '00', '00', '00'],
-        ['02', '02', '01', '00', '00', '00', '00', '00'],
-        ['bb', 'bb', '01', '00', '01', '01', '01', '00'],
-        ['02', '02', '01', '00', '01', 'bb', '02', '01'],
-        ['00', '00', '00', '00', '01', '03', 'bb', '02'],
-        ['00', '00', '00', '00', '00', '03', 'bb', '03'],
-        ['00', '00', '00', '00', '00', '02', 'bb', '02'],
-    ]
+function resetGame(bombCount = 10, rowCount = 8, colCount = 8) {
+    const solution = _generateGameSolution(bombCount, rowCount, colCount)
+    let cellStates = []
+    for (let i = 0; i < rowCount; i++) {
+        cellStates.push(new Array(colCount).fill('un'))
+    }
 
     gGame = {
-        status: 'initial',
-
+        status: 'idle',
         solution,
-
-        cellStates: [
-            ['un', 'un', 'un', 'un', 'un', 'un', 'un', 'un'],
-            ['un', 'un', 'un', 'un', 'un', 'un', 'un', 'un'],
-            ['un', 'un', 'un', 'un', 'un', 'un', 'un', 'un'],
-            ['un', 'un', 'un', 'un', 'un', 'un', 'un', 'un'],
-            ['un', 'un', 'un', 'un', 'un', 'un', 'un', 'un'],
-            ['un', 'un', 'un', 'un', 'un', 'un', 'un', 'un'],
-            ['un', 'un', 'un', 'un', 'un', 'un', 'un', 'un'],
-            ['un', 'un', 'un', 'un', 'un', 'un', 'un', 'un'],
-        ],
-
-        bombsCount: _countBombs(solution),
+        cellStates,
+        bombCount,
         dangerCoords: null,
         explodedBombCoords: null,
         startTime: null,
@@ -184,6 +174,11 @@ function isGameOver() {
     return ['lost', 'won'].includes(gGame.status)
 }
 
+function isGameInitial() {
+    const { status, startTime } = gGame
+    return status === 'idle' && !startTime
+}
+
 function markCell(rowIdx, colIdx) {
     const curCellState = gGame.cellStates[rowIdx][colIdx]
     let newCellState
@@ -213,31 +208,6 @@ function setDangerCoords(coords) {
     }
 }
 
-function _exposeCell(game, rowIdx, colIdx) {
-    game.cellStates[rowIdx][colIdx] = 'ex'
-    if (game.solution[rowIdx][colIdx] !== '00') {
-        return
-    }
-
-    for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-            const newRowIdx = rowIdx + i
-            const newColIdx = colIdx + j
-            if (
-                (i === 0 && j === 0) ||
-                newRowIdx < 0 ||
-                newRowIdx >= game.solution.length ||
-                newColIdx < 0 ||
-                newColIdx >= game.solution[0].length ||
-                game.cellStates[newRowIdx][newColIdx] !== 'un'
-            ) {
-                continue
-            }
-            _exposeCell(game, newRowIdx, newColIdx)
-        }
-    }
-}
-
 function getStopwatchValue() {
     const { startTime } = gGame
     if (!startTime) {
@@ -247,11 +217,90 @@ function getStopwatchValue() {
 }
 
 function getBombCounterValue() {
-    return gGame.bombsCount - _countFlags()
+    return gGame.bombCount - _countFlags()
 }
 
-function _countBombs(solution) {
-    return _countCells(solution, 'bb')
+function _generateGameSolution(bombCount, rowCount, colCount) {
+    let solution = []
+    for (let i = 0; i < rowCount; i++) {
+        solution.push(new Array(colCount).fill(0))
+    }
+
+    // add bombs
+    let bombsAdded = 0
+    while (bombsAdded < bombCount) {
+        const bombRow = Math.floor(Math.random() * rowCount)
+        const bombCol = Math.floor(Math.random() * colCount)
+        if (solution[bombRow][bombCol] === 'bb') {
+            // there's already a bomb in this cell
+            continue
+        }
+        solution[bombRow][bombCol] = 'bb'
+        bombsAdded++
+    }
+
+    // add numbers around bombs
+    for (let i = 0; i < rowCount; ++i) {
+        for (let j = 0; j < colCount; ++j) {
+            solution[i][j] = _calcCellValue(solution, i, j)
+        }
+    }
+
+    return solution
+}
+
+function _calcCellValue(solution, rowIdx, colIdx) {
+    if (solution[rowIdx][colIdx] === 'bb') {
+        return 'bb'
+    }
+
+    let val = 0
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+            const curRowIdx = rowIdx + i
+            const curColIdx = colIdx + j
+            if (
+                _isValidAdjacentCell(solution, i, j, curRowIdx, curColIdx) &&
+                solution[curRowIdx][curColIdx] === 'bb'
+            ) {
+                ++val
+            }
+        }
+    }
+    return `0${val}`
+}
+
+function _exposeCell(game, rowIdx, colIdx) {
+    const { solution } = game
+
+    game.cellStates[rowIdx][colIdx] = 'ex'
+    if (solution[rowIdx][colIdx] !== '00') {
+        return
+    }
+
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+            const newRowIdx = rowIdx + i
+            const newColIdx = colIdx + j
+            if (
+                !_isValidAdjacentCell(solution, i, j, newRowIdx, newColIdx) ||
+                game.cellStates[newRowIdx][newColIdx] !== 'un'
+            ) {
+                continue
+            }
+            _exposeCell(game, newRowIdx, newColIdx)
+        }
+    }
+}
+
+function _isValidAdjacentCell(solution, i, j, newRowIdx, newColIdx) {
+    return (
+        (i !== 0 || j !== 0) &&
+        newRowIdx >= 0 &&
+        newRowIdx < solution.length &&
+        newColIdx >= 0 &&
+        newColIdx < solution[0].length
+    )
 }
 
 function _countFlags() {
