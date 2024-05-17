@@ -225,6 +225,18 @@ function setDangerCoords(coords) {
     }
 }
 
+function getStopwatchValue() {
+    const { startTime } = gGame
+    if (!startTime) {
+        return 0
+    }
+    return Math.ceil((Date.now() - startTime) / 1000)
+}
+
+function getBombCounterValue() {
+    return gGame.bombsCount - _countFlags()
+}
+
 function _exposeCell(game, rowIdx, colIdx) {
     game.cellStates[rowIdx][colIdx] = 'ex'
     if (game.solution[rowIdx][colIdx] !== '00') {
@@ -248,18 +260,6 @@ function _exposeCell(game, rowIdx, colIdx) {
             _exposeCell(game, newRowIdx, newColIdx)
         }
     }
-}
-
-function getStopwatchValue() {
-    const { startTime } = gGame
-    if (!startTime) {
-        return 0
-    }
-    return Math.ceil((Date.now() - startTime) / 1000)
-}
-
-function getBombCounterValue() {
-    return gGame.bombsCount - _countFlags()
 }
 
 function _countBombs(solution) {
