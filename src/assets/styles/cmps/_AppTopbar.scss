@@ -1,0 +1,8 @@
+.app-topbar {
+    background-color: var(--grey-1);
+    height: 20px;
+
+    > button {
+        @include clear-button-styling;
+    }
+}

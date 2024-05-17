@@ -10,14 +10,14 @@ export function BevelledBox({
         }.svg)`
 
         return {
-            height: `${bevelWidth}rem`,
+            height: `${bevelWidth}px`,
             backgroundImage,
         }
     }
 
     function getBevelStyle() {
         return {
-            borderWidth: `${bevelWidth}rem`,
+            borderWidth: `${bevelWidth}px`,
         }
     }
 
@@ -27,7 +27,7 @@ export function BevelledBox({
 
     function getContentStyle() {
         return {
-            padding: `${padding + bevelWidth}rem`,
+            padding: `${padding + bevelWidth}px`,
         }
     }
 

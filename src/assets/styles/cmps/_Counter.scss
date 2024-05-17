@@ -1,6 +1,12 @@
 .counter {
-    > .bevelled-box > .bevel {
-        background-color: var(--grey-2);
+    > .bevelled-box {
+        > .bevel {
+            background-color: var(--grey-2);
+        }
+
+        > .content {
+            display: flex;
+        }
     }
 
     .digit-img {
