@@ -227,10 +227,16 @@ function _generateGameSolution(bombCount, rowCount, colCount) {
     }
 
     // add bombs
-    for (let i = 0; i < bombCount; i++) {
+    let bombsAdded = 0
+    while (bombsAdded < bombCount) {
         const bombRow = Math.floor(Math.random() * rowCount)
         const bombCol = Math.floor(Math.random() * colCount)
+        if (solution[bombRow][bombCol] === 'bb') {
+            // there's already a bomb in this cell
+            continue
+        }
         solution[bombRow][bombCol] = 'bb'
+        bombsAdded++
     }
 
     // add numbers around bombs
