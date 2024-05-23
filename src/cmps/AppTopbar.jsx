@@ -1,7 +1,9 @@
+import { GameSettings } from './GameSettings'
+
 export function AppTopbar() {
     return (
         <div className="app-topbar">
-            <button>Game</button>
+            <GameSettings />
         </div>
     )
 }
