@@ -17,9 +17,11 @@ export function App() {
     }
 
     return (
-        <GameContext.Provider value={{ game, setGame, gameSettings }}>
+        <GameContext.Provider
+            value={{ game, setGame, gameSettings, onChangeGameSettings }}
+        >
             <div className="app">
-                <AppTopbar onChangeGameSettings={onChangeGameSettings} />
+                <AppTopbar />
                 <Game />
             </div>
         </GameContext.Provider>

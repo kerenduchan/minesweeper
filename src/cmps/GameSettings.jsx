@@ -1,15 +1,15 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext } from 'react'
 import { GameSetting } from './GameSetting'
 import { GameContext } from '../contexts/GameContext'
 
-export function GameSettings({ onChangeGameSettings }) {
+export function GameSettings() {
     const allPossibleGameSettings = [
         { id: 'beginner', title: 'Beginner' },
         { id: 'intermediate', title: 'Intermediate' },
         { id: 'expert', title: 'Expert' },
     ]
 
-    const { gameSettings } = useContext(GameContext)
+    const { gameSettings, onChangeGameSettings } = useContext(GameContext)
 
     return (
         <ul className="game-settings">
