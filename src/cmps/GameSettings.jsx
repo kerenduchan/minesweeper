@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { GameSetting } from './GameSetting'
+import { gameService } from '../services/game.service'
+import { GameContext } from '../contexts/GameContext'
 
 export function GameSettings() {
     const settings = [
@@ -24,13 +26,16 @@ export function GameSettings() {
             colCount: 30,
             bombCount: 99,
         },
-        {
-            id: 'custom',
-            title: 'Custom',
-        },
     ]
 
     const [selected, setSelected] = useState(settings[0])
+    const { setGame } = useContext(GameContext)
+
+    useEffect(() => {
+        const { bombCount, rowCount, colCount } = selected
+        gameService.resetGame(bombCount, rowCount, colCount)
+        setGame(gameService.getGame())
+    }, [selected])
 
     function onSelect(setting) {
         setSelected(setting)
