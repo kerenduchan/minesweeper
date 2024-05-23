@@ -1,9 +1,9 @@
 import { GameSettings } from './GameSettings'
 
-export function AppTopbar() {
+export function AppTopbar({ onChangeGameSettings }) {
     return (
         <div className="app-topbar">
-            <GameSettings />
+            <GameSettings onChangeGameSettings={onChangeGameSettings} />
         </div>
     )
 }
