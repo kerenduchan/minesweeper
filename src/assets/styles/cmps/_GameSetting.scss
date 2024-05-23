@@ -5,15 +5,15 @@
     user-select: none;
 
     &:hover {
-        background-color: var(--grey-1);
+        background-color: var(--grey-20);
     }
 
     &:active:hover {
-        background-color: var(--grey-01);
+        background-color: var(--grey-15);
     }
 
     &.selected {
         color: white;
-        background-color: var(--grey-2);
+        background-color: var(--grey-30);
     }
 }
