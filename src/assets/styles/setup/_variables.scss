@@ -1,14 +1,14 @@
 :root {
-    // this affects every unit that is specified with "rem"
-    // change this to scale the entire game.
-    font-size: 2px;
-
-    --cell-size: 16rem;
-    --smiley-size: 26rem;
-    --counter-height: 23rem;
+    --cell-size: 16px;
+    --smiley-size: 26px;
+    --counter-height: 23px;
 
     // colors
-    --grey-1: #c0c0c0;
-    --grey-2: #808080;
-    --grey-3: #373737;
+    --grey-10: #e3e3e3;
+    --grey-15: #cccccc;
+    --grey-20: #c0c0c0;
+    --grey-30: #808080;
+    --grey-40: #373737;
+
+    --link: #1362a7;
 }

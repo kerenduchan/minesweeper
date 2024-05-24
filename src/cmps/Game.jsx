@@ -1,11 +1,12 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useContext } from 'react'
 import { gameService } from '../services/game.service'
 import { Board } from './Board'
 import { BoardTopbar } from './BoardTopbar'
 import { BevelledBox } from './BevelledBox'
+import { GameContext } from '../contexts/GameContext'
 
 export function Game() {
-    const [game, setGame] = useState(gameService.getGame())
+    const { game, setGame } = useContext(GameContext)
 
     useEffect(() => {
         document.addEventListener('mouseup', onBodyMouseUp)

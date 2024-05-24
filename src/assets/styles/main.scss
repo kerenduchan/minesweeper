@@ -8,10 +8,13 @@
 @import 'base/helpers';
 
 // COMPONENTS
+@import 'cmps/AppTopbar';
 @import 'cmps/BevelledBox';
 @import 'cmps/Board';
 @import 'cmps/BoardTopbar';
 @import 'cmps/Cell';
 @import 'cmps/Counter';
 @import 'cmps/Game';
+@import 'cmps/GameSetting';
+@import 'cmps/GameSettings';
 @import 'cmps/SmileyButton';

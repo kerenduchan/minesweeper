@@ -1,5 +1,7 @@
 export const gameService = {
     getGame,
+    getGameSettings,
+    setGameSettingsAndResetGame,
     resetGame,
     cancelDangerStatus,
     getGameCell,
@@ -46,14 +48,51 @@ export const gameService = {
 // null if the game hasn't started yet, or the timestamp of when the first
 // cell was exposed.
 
+const _presets = {
+    beginner: {
+        rowCount: 8,
+        colCount: 8,
+        bombCount: 10,
+    },
+    intermediate: {
+        rowCount: 16,
+        colCount: 16,
+        bombCount: 40,
+    },
+    expert: {
+        rowCount: 16,
+        colCount: 30,
+        bombCount: 99,
+    },
+}
+
+let gGameSettings
 let gGame
-resetGame()
+setGameSettingsAndResetGame('beginner')
 
 function getGame() {
     return gGame
 }
 
-function resetGame(bombCount = 10, rowCount = 8, colCount = 8) {
+function getGameSettings() {
+    return gGameSettings
+}
+
+function setGameSettingsAndResetGame(presetOrCustom) {
+    if (typeof presetOrCustom === 'string') {
+        gGameSettings = {
+            preset: presetOrCustom,
+            ..._presets[presetOrCustom],
+        }
+    } else {
+        // TODO: custom
+    }
+    resetGame()
+}
+
+// reset the game based on the current game settings
+function resetGame() {
+    const { rowCount, colCount, bombCount } = gGameSettings
     const solution = _generateGameSolution(bombCount, rowCount, colCount)
     let cellStates = []
     for (let i = 0; i < rowCount; i++) {
