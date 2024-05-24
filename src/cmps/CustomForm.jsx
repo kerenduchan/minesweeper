@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { gameService } from '../services/game.service'
 
-export function CustomForm() {
+export function CustomForm({ onSubmit }) {
     const [draft, setDraft] = useState(gameService.getCustomSettings())
 
     useEffect(() => {
@@ -15,8 +15,13 @@ export function CustomForm() {
         })
     }
 
+    function onSubmitInternal(e) {
+        e.preventDefault()
+        onSubmit(draft)
+    }
+
     return (
-        <form className="custom-form">
+        <form className="custom-form" onSubmit={onSubmitInternal}>
             <label htmlFor="height">Height</label>
             <input
                 type="text"
@@ -40,6 +45,8 @@ export function CustomForm() {
                 value={draft.mineCount}
                 onChange={onChange}
             />
+
+            <button>Apply</button>
         </form>
     )
 }

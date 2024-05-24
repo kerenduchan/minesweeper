@@ -2,6 +2,7 @@ import { useContext, useState } from 'react'
 import { GameSetting } from './GameSetting'
 import { GameContext } from '../contexts/GameContext'
 import { CustomForm } from './CustomForm'
+import { gameService } from '../services/game.service'
 
 export function GameSettings() {
     const [showCustomForm, setShowCustomForm] = useState(false)
@@ -23,6 +24,11 @@ export function GameSettings() {
         return settingId === gameSettings.preset
     }
 
+    function onCustomFormSubmit(draft) {
+        gameService.setCustomSettings({ preset: 'custom', ...draft })
+        onChangeGameSettings('custom')
+    }
+
     return (
         <>
             <ul className="game-settings">
@@ -35,7 +41,7 @@ export function GameSettings() {
                     />
                 ))}
             </ul>
-            {showCustomForm && <CustomForm />}
+            {showCustomForm && <CustomForm onSubmit={onCustomFormSubmit} />}
         </>
     )
 }

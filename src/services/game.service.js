@@ -2,6 +2,7 @@ export const gameService = {
     getGame,
     getGameSettings,
     getCustomSettings,
+    setCustomSettings,
     setGameSettingsAndResetGame,
     resetGame,
     cancelDangerStatus,
@@ -85,14 +86,19 @@ function getCustomSettings() {
     return gCustomSettings ? gCustomSettings : _presets.beginner
 }
 
+function setCustomSettings(settings) {
+    gCustomSettings = settings
+    setGameSettingsAndResetGame('custom')
+}
+
 function setGameSettingsAndResetGame(presetOrCustom) {
-    if (typeof presetOrCustom === 'string') {
+    if (presetOrCustom === 'custom') {
+        gGameSettings = getCustomSettings()
+    } else {
         gGameSettings = {
             preset: presetOrCustom,
             ..._presets[presetOrCustom],
         }
-    } else {
-        // TODO: custom
     }
     resetGame()
 }
