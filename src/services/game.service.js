@@ -87,7 +87,6 @@ function setGameSettingsAndResetGame(presetOrCustom) {
     } else {
         // TODO: custom
     }
-    console.log(gGameSettings)
     resetGame()
 }
 
