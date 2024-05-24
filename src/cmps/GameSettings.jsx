@@ -8,12 +8,7 @@ export function GameSettings() {
     const { gameSettings, onChangeGameSettings } = useContext(GameContext)
 
     function onSettingClick(settingId) {
-        if (settingId === 'custom') {
-            setShowCustomForm(true)
-            return
-        }
-        // beginner / intermediate / expert
-        setShowCustomForm(false)
+        setShowCustomForm(settingId === 'custom')
         onChangeGameSettings(settingId)
     }
 
@@ -25,10 +20,7 @@ export function GameSettings() {
     ]
 
     function isSelected(settingId) {
-        if (showCustomForm) {
-            return settingId === 'custom'
-        }
-        return gameSettings.preset === settingId
+        return settingId === gameSettings.preset
     }
 
     return (

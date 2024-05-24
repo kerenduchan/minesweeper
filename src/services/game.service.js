@@ -1,6 +1,7 @@
 export const gameService = {
     getGame,
     getGameSettings,
+    getCustomSettings,
     setGameSettingsAndResetGame,
     resetGame,
     cancelDangerStatus,
@@ -67,7 +68,9 @@ const _presets = {
 }
 
 let gGameSettings
+let gCustomSettings
 let gGame
+
 setGameSettingsAndResetGame('beginner')
 
 function getGame() {
@@ -76,6 +79,10 @@ function getGame() {
 
 function getGameSettings() {
     return gGameSettings
+}
+
+function getCustomSettings() {
+    return gCustomSettings ? gCustomSettings : _presets.beginner
 }
 
 function setGameSettingsAndResetGame(presetOrCustom) {
