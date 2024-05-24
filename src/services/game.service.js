@@ -80,10 +80,14 @@ function getGameSettings() {
 
 function setGameSettingsAndResetGame(presetOrCustom) {
     if (typeof presetOrCustom === 'string') {
-        gGameSettings = _buildGameSettingsFromPreset(presetOrCustom)
+        gGameSettings = {
+            preset: presetOrCustom,
+            ..._presets[presetOrCustom],
+        }
     } else {
         // TODO: custom
     }
+    console.log(gGameSettings)
     resetGame()
 }
 
@@ -371,8 +375,4 @@ function _flagAllBombs(game) {
             }
         })
     )
-}
-
-function _buildGameSettingsFromPreset(preset) {
-    return { preset, ..._presets[preset] }
 }
