@@ -147,21 +147,24 @@ function exposeCell(rowIdx, colIdx) {
         return
     }
 
-    // recursively expose this cell and its neighbors as needed
+    // Post condition: cell is not a mine, not flagged and not exposed.
+    // Iteratively expose this cell and its neighbors as needed
     const newGame = structuredClone(gGame)
     _exposeCell(newGame, rowIdx, colIdx)
 
+    // Start the game timer in case it hasn't been started yet
     if (!newGame.startTime) {
         newGame.startTime = Date.now()
     }
 
+    // Check if the game has been won
     const isGameWon = _isGameWon(newGame)
     newGame.status = isGameWon ? 'won' : 'idle'
-
     if (isGameWon) {
         _flagAllMines(newGame)
     }
 
+    // Update the game model
     gGame = newGame
 }
 
@@ -312,7 +315,7 @@ function _calcCellValue(solution, rowIdx, colIdx) {
             const curRowIdx = rowIdx + i
             const curColIdx = colIdx + j
             if (
-                _isValidAdjacentCell(solution, i, j, curRowIdx, curColIdx) &&
+                _isValidNeighbor(solution, i, j, curRowIdx, curColIdx) &&
                 solution[curRowIdx][curColIdx] === 'mm'
             ) {
                 ++val
@@ -323,29 +326,46 @@ function _calcCellValue(solution, rowIdx, colIdx) {
 }
 
 function _exposeCell(game, rowIdx, colIdx) {
+    // Assumptions: cell is not a bomb, not flagged and not exposed.
     const { solution } = game
 
-    game.cellStates[rowIdx][colIdx] = 'ex'
-    if (solution[rowIdx][colIdx] !== '00') {
-        return
-    }
+    // Push this cell into the queue.
+    // All cells in the queue must have a cell state of 'un'.
+    // Queue must not contain duplicates.
+    const queue = [[rowIdx, colIdx]]
 
-    for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-            const newRowIdx = rowIdx + i
-            const newColIdx = colIdx + j
-            if (
-                !_isValidAdjacentCell(solution, i, j, newRowIdx, newColIdx) ||
-                game.cellStates[newRowIdx][newColIdx] !== 'un'
-            ) {
-                continue
+    while (queue.length) {
+        const queueStr = queue.map((item) => item.join(','))
+
+        // Dequeue a cell from the queue and expose it
+        const [curRowIdx, curColIdx] = queue.shift()
+        game.cellStates[curRowIdx][curColIdx] = 'ex'
+
+        // Done with this cell if it's not a '00' cell
+        if (solution[curRowIdx][curColIdx] !== '00') {
+            continue
+        }
+
+        // Visit the cell's neighbors
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                const newRowIdx = curRowIdx + i
+                const newColIdx = curColIdx + j
+                if (
+                    _isValidNeighbor(solution, i, j, newRowIdx, newColIdx) &&
+                    game.cellStates[newRowIdx][newColIdx] === 'un' &&
+                    !queueStr.includes(`${newRowIdx},${newColIdx}`)
+                ) {
+                    // This neighbor's state is 'un' and it is not already in
+                    // the queue. Push this neighbor into the queue.
+                    queue.push([newRowIdx, newColIdx])
+                }
             }
-            _exposeCell(game, newRowIdx, newColIdx)
         }
     }
 }
 
-function _isValidAdjacentCell(solution, i, j, newRowIdx, newColIdx) {
+function _isValidNeighbor(solution, i, j, newRowIdx, newColIdx) {
     return (
         (i !== 0 || j !== 0) &&
         newRowIdx >= 0 &&
