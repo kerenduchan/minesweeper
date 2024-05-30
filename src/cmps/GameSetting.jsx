@@ -1,8 +1,8 @@
-export function GameSetting({ setting, isSelected, onSelect }) {
+export function GameSetting({ setting, isSelected, onClick }) {
     return (
         <li
             className={`game-setting ${isSelected ? 'selected' : ''}`}
-            onClick={onSelect}
+            onClick={onClick}
         >
             {setting.title}
         </li>

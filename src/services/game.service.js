@@ -1,6 +1,8 @@
 export const gameService = {
     getGame,
     getGameSettings,
+    getCustomSettings,
+    setCustomSettings,
     setGameSettingsAndResetGame,
     resetGame,
     cancelDangerStatus,
@@ -11,7 +13,7 @@ export const gameService = {
     markCell,
     setDangerCoords,
     getStopwatchValue,
-    getBombCounterValue,
+    getMineCounterValue,
 }
 
 // GAME MODEL
@@ -19,13 +21,13 @@ export const gameService = {
 // status:
 // - idle    = game in progress, no win or loss, no mouse down.
 // - danger  = mouse down on one of the cells, and no mouse up yet
-// - lost    = game over with a loss (stepped on bomb)
-// - won     = game over with a win (all non-bomb cells have been exposed)
+// - lost    = game over with a loss (stepped on mine)
+// - won     = game over with a win (all non-mine cells have been exposed)
 
 // solution:
 // The cells of the board, if they were all exposed.
-// 00-08 = non-bomb cells
-// bb = bomb
+// 00-08 = non-mine cells
+// mm = mine
 
 // cellStates:
 // 'un' = unexposed and unmarked
@@ -33,15 +35,15 @@ export const gameService = {
 // 'qq' = unexposed and marked with a question mark
 // 'ex' = exposed
 
-// bombCount:
-// How many bombs there are in the solution of the game.
+// mineCount:
+// How many mines there are in the solution of the game.
 
 // dangerCoords:
 // Coordinates of the danger cell - mouse down was clicked, mouse is
 // currently hovering over this cell, no mouse up yet)
 
-// explodedBombCoords:
-// Coordinates of the bomb that was stepped on that resulted in the game
+// explodedMineCoords:
+// Coordinates of the mine that was stepped on that resulted in the game
 // being lost.
 
 // startTime:
@@ -52,22 +54,24 @@ const _presets = {
     beginner: {
         rowCount: 8,
         colCount: 8,
-        bombCount: 10,
+        mineCount: 10,
     },
     intermediate: {
         rowCount: 16,
         colCount: 16,
-        bombCount: 40,
+        mineCount: 40,
     },
     expert: {
         rowCount: 16,
         colCount: 30,
-        bombCount: 99,
+        mineCount: 99,
     },
 }
 
 let gGameSettings
+let gCustomSettings
 let gGame
+
 setGameSettingsAndResetGame('beginner')
 
 function getGame() {
@@ -78,22 +82,30 @@ function getGameSettings() {
     return gGameSettings
 }
 
+function getCustomSettings() {
+    return gCustomSettings ? gCustomSettings : _presets.beginner
+}
+
+function setCustomSettings(settings) {
+    gCustomSettings = settings
+    setGameSettingsAndResetGame('custom')
+}
+
 function setGameSettingsAndResetGame(presetOrCustom) {
-    if (typeof presetOrCustom === 'string') {
-        gGameSettings = {
-            preset: presetOrCustom,
-            ..._presets[presetOrCustom],
-        }
-    } else {
-        // TODO: custom
-    }
+    gGameSettings =
+        presetOrCustom === 'custom'
+            ? getCustomSettings()
+            : _presets[presetOrCustom]
+
+    gGameSettings.preset = presetOrCustom
+
     resetGame()
 }
 
 // reset the game based on the current game settings
 function resetGame() {
-    const { rowCount, colCount, bombCount } = gGameSettings
-    const solution = _generateGameSolution(bombCount, rowCount, colCount)
+    const { rowCount, colCount, mineCount } = gGameSettings
+    const solution = _generateGameSolution(mineCount, rowCount, colCount)
     let cellStates = []
     for (let i = 0; i < rowCount; i++) {
         cellStates.push(new Array(colCount).fill('un'))
@@ -103,9 +115,9 @@ function resetGame() {
         status: 'idle',
         solution,
         cellStates,
-        bombCount,
+        mineCount,
         dangerCoords: null,
-        explodedBombCoords: null,
+        explodedMineCoords: null,
         startTime: null,
     }
 }
@@ -123,67 +135,70 @@ function exposeCell(rowIdx, colIdx) {
         return
     }
 
-    // handle the case where a bomb was stepped on
+    // handle the case where a mine was stepped on
     const cellSolution = gGame.solution[rowIdx][colIdx]
-    if (cellSolution === 'bb') {
+    if (cellSolution === 'mm') {
         gGame = {
             ...gGame,
             status: 'lost',
-            explodedBombCoords: [rowIdx, colIdx],
+            explodedMineCoords: [rowIdx, colIdx],
         }
         return
     }
 
-    // recursively expose this cell and its neighbors as needed
+    // Post condition: cell is not a mine, not flagged and not exposed.
+    // Iteratively expose this cell and its neighbors as needed
     const newGame = structuredClone(gGame)
     _exposeCell(newGame, rowIdx, colIdx)
 
+    // Start the game timer in case it hasn't been started yet
     if (!newGame.startTime) {
         newGame.startTime = Date.now()
     }
 
+    // Check if the game has been won
     const isGameWon = _isGameWon(newGame)
     newGame.status = isGameWon ? 'won' : 'idle'
-
     if (isGameWon) {
-        _flagAllBombs(newGame)
+        _flagAllMines(newGame)
     }
 
+    // Update the game model
     gGame = newGame
 }
 
 function getGameCell(rowIdx, colIdx) {
-    const { status, solution, cellStates, dangerCoords, explodedBombCoords } =
+    const { status, solution, cellStates, dangerCoords, explodedMineCoords } =
         gGame
 
     const cellState = cellStates[rowIdx][colIdx]
     const cellSolution = solution[rowIdx][colIdx]
 
     if (status === 'lost') {
-        // when the game is lost, all bombs are exposed.
-        // the bomb that was stepped on, which caused the loss, is red.
-        // a non-bomb cell that was flagged is displayed as a bomb with a red x.
-        // a bomb cell that was flagged is displayed as a flag.
+        // when the game is lost, all mines are exposed.
+        // the mine that was stepped on, which caused the loss, is red.
+        // a non-mine cell that was flagged is displayed as a mine with a red x.
+        // a mine cell that was flagged is displayed as a flag.
 
-        if (cellSolution === 'bb') {
+        if (cellSolution === 'mm') {
             if (
-                explodedBombCoords[0] == rowIdx &&
-                explodedBombCoords[1] === colIdx
+                explodedMineCoords[0] == rowIdx &&
+                explodedMineCoords[1] === colIdx
             ) {
-                // the bomb that was stepped on, which caused the loss, is red
-                return 'br'
+                // the mine that was stepped on, which caused the loss, is red
+                return 'mr'
             }
             if (cellState === 'fl') {
-                // a bomb cell that was flagged is displayed as a flag.
+                // a mine cell that was flagged is displayed as a flag.
                 return 'fl'
             }
-            // expose the bomb
-            return 'bb'
+            // expose the mine
+            return 'mm'
         }
         if (cellState === 'fl') {
-            // a non-bomb cell that was flagged is displayed as a bomb with
+            // a non-mine cell that was flagged is displayed as a mine with
             // a red x.
-            return 'bx'
+            return 'mx'
         }
     }
 
@@ -255,30 +270,30 @@ function getStopwatchValue() {
     return Math.ceil((Date.now() - startTime) / 1000)
 }
 
-function getBombCounterValue() {
-    return gGame.bombCount - _countFlags()
+function getMineCounterValue() {
+    return gGame.mineCount - _countFlags()
 }
 
-function _generateGameSolution(bombCount, rowCount, colCount) {
+function _generateGameSolution(mineCount, rowCount, colCount) {
     let solution = []
     for (let i = 0; i < rowCount; i++) {
         solution.push(new Array(colCount).fill(0))
     }
 
-    // add bombs
-    let bombsAdded = 0
-    while (bombsAdded < bombCount) {
-        const bombRow = Math.floor(Math.random() * rowCount)
-        const bombCol = Math.floor(Math.random() * colCount)
-        if (solution[bombRow][bombCol] === 'bb') {
-            // there's already a bomb in this cell
+    // add mines
+    let minesAdded = 0
+    while (minesAdded < mineCount) {
+        const mineRow = Math.floor(Math.random() * rowCount)
+        const mineCol = Math.floor(Math.random() * colCount)
+        if (solution[mineRow][mineCol] === 'mm') {
+            // there's already a mine in this cell
             continue
         }
-        solution[bombRow][bombCol] = 'bb'
-        bombsAdded++
+        solution[mineRow][mineCol] = 'mm'
+        minesAdded++
     }
 
-    // add numbers around bombs
+    // add numbers around mines
     for (let i = 0; i < rowCount; ++i) {
         for (let j = 0; j < colCount; ++j) {
             solution[i][j] = _calcCellValue(solution, i, j)
@@ -289,8 +304,8 @@ function _generateGameSolution(bombCount, rowCount, colCount) {
 }
 
 function _calcCellValue(solution, rowIdx, colIdx) {
-    if (solution[rowIdx][colIdx] === 'bb') {
-        return 'bb'
+    if (solution[rowIdx][colIdx] === 'mm') {
+        return 'mm'
     }
 
     let val = 0
@@ -299,8 +314,8 @@ function _calcCellValue(solution, rowIdx, colIdx) {
             const curRowIdx = rowIdx + i
             const curColIdx = colIdx + j
             if (
-                _isValidAdjacentCell(solution, i, j, curRowIdx, curColIdx) &&
-                solution[curRowIdx][curColIdx] === 'bb'
+                _isValidNeighbor(solution, i, j, curRowIdx, curColIdx) &&
+                solution[curRowIdx][curColIdx] === 'mm'
             ) {
                 ++val
             }
@@ -322,7 +337,7 @@ function _exposeCell(game, rowIdx, colIdx) {
             const newRowIdx = rowIdx + i
             const newColIdx = colIdx + j
             if (
-                !_isValidAdjacentCell(solution, i, j, newRowIdx, newColIdx) ||
+                !_isValidNeighbor(solution, i, j, newRowIdx, newColIdx) ||
                 game.cellStates[newRowIdx][newColIdx] !== 'un'
             ) {
                 continue
@@ -332,7 +347,7 @@ function _exposeCell(game, rowIdx, colIdx) {
     }
 }
 
-function _isValidAdjacentCell(solution, i, j, newRowIdx, newColIdx) {
+function _isValidNeighbor(solution, i, j, newRowIdx, newColIdx) {
     return (
         (i !== 0 || j !== 0) &&
         newRowIdx >= 0 &&
@@ -361,15 +376,15 @@ function _isGameWon(game) {
     return solution.every((row, rowIdx) =>
         row.every(
             (cell, colIdx) =>
-                cell === 'bb' || cellStates[rowIdx][colIdx] === 'ex'
+                cell === 'mm' || cellStates[rowIdx][colIdx] === 'ex'
         )
     )
 }
 
-function _flagAllBombs(game) {
+function _flagAllMines(game) {
     game.solution.forEach((row, rowIdx) =>
         row.forEach((cell, colIdx) => {
-            if (cell === 'bb') {
+            if (cell === 'mm') {
                 game.cellStates[rowIdx][colIdx] = 'fl'
             }
         })
