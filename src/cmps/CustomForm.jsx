@@ -22,29 +22,35 @@ export function CustomForm({ onSubmit }) {
 
     return (
         <form className="custom-form" onSubmit={onSubmitInternal}>
-            <label htmlFor="height">Height</label>
-            <input
-                type="text"
-                id="rowCount"
-                value={draft.rowCount}
-                onChange={onChange}
-            />
+            <div className="field">
+                <label htmlFor="height">Height</label>
+                <input
+                    type="text"
+                    id="rowCount"
+                    value={draft.rowCount}
+                    onChange={onChange}
+                />
+            </div>
 
-            <label htmlFor="width">Width</label>
-            <input
-                type="text"
-                id="colCount"
-                value={draft.colCount}
-                onChange={onChange}
-            />
+            <div className="field">
+                <label htmlFor="width">Width</label>
+                <input
+                    type="text"
+                    id="colCount"
+                    value={draft.colCount}
+                    onChange={onChange}
+                />
+            </div>
 
-            <label htmlFor="mines">Mines</label>
-            <input
-                type="text"
-                id="mineCount"
-                value={draft.mineCount}
-                onChange={onChange}
-            />
+            <div className="field">
+                <label htmlFor="mines">Mines</label>
+                <input
+                    type="text"
+                    id="mineCount"
+                    value={draft.mineCount}
+                    onChange={onChange}
+                />
+            </div>
 
             <button>Apply</button>
         </form>

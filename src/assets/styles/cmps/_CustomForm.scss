@@ -1,0 +1,12 @@
+.custom-form {
+    padding-bottom: 10px;
+    padding-inline-start: 30px;
+    display: flex;
+    gap: 10px;
+
+    .field {
+        > label {
+            padding-inline-end: 5px;
+        }
+    }
+}

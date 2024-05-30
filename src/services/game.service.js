@@ -92,14 +92,13 @@ function setCustomSettings(settings) {
 }
 
 function setGameSettingsAndResetGame(presetOrCustom) {
-    if (presetOrCustom === 'custom') {
-        gGameSettings = getCustomSettings()
-    } else {
-        gGameSettings = {
-            preset: presetOrCustom,
-            ..._presets[presetOrCustom],
-        }
-    }
+    gGameSettings =
+        presetOrCustom === 'custom'
+            ? getCustomSettings()
+            : _presets[presetOrCustom]
+
+    gGameSettings.preset = presetOrCustom
+
     resetGame()
 }
 
