@@ -52,7 +52,7 @@ export function CustomForm({ onSubmit }) {
                 />
             </div>
 
-            <button>Apply</button>
+            <button className="submit">Apply</button>
         </form>
     )
 }
