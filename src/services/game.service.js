@@ -326,41 +326,24 @@ function _calcCellValue(solution, rowIdx, colIdx) {
 }
 
 function _exposeCell(game, rowIdx, colIdx) {
-    // Assumptions: cell is not a bomb, not flagged and not exposed.
     const { solution } = game
 
-    // Push this cell into the queue.
-    // All cells in the queue must have a cell state of 'un'.
-    // Queue must not contain duplicates.
-    const queue = [[rowIdx, colIdx]]
+    game.cellStates[rowIdx][colIdx] = 'ex'
+    if (solution[rowIdx][colIdx] !== '00') {
+        return
+    }
 
-    while (queue.length) {
-        const queueStr = queue.map((item) => item.join(','))
-
-        // Dequeue a cell from the queue and expose it
-        const [curRowIdx, curColIdx] = queue.shift()
-        game.cellStates[curRowIdx][curColIdx] = 'ex'
-
-        // Done with this cell if it's not a '00' cell
-        if (solution[curRowIdx][curColIdx] !== '00') {
-            continue
-        }
-
-        // Visit the cell's neighbors
-        for (let i = -1; i <= 1; i++) {
-            for (let j = -1; j <= 1; j++) {
-                const newRowIdx = curRowIdx + i
-                const newColIdx = curColIdx + j
-                if (
-                    _isValidNeighbor(solution, i, j, newRowIdx, newColIdx) &&
-                    game.cellStates[newRowIdx][newColIdx] === 'un' &&
-                    !queueStr.includes(`${newRowIdx},${newColIdx}`)
-                ) {
-                    // This neighbor's state is 'un' and it is not already in
-                    // the queue. Push this neighbor into the queue.
-                    queue.push([newRowIdx, newColIdx])
-                }
+    for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+            const newRowIdx = rowIdx + i
+            const newColIdx = colIdx + j
+            if (
+                !_isValidNeighbor(solution, i, j, newRowIdx, newColIdx) ||
+                game.cellStates[newRowIdx][newColIdx] !== 'un'
+            ) {
+                continue
             }
+            _exposeCell(game, newRowIdx, newColIdx)
         }
     }
 }
