@@ -25,17 +25,20 @@ export function Cell({
         e.preventDefault()
     }
 
-    function getImgClass() {
-        return 'cell-' + gameService.getGameCell(rowIdx, colIdx)
+    function getImg() {
+        let cell = gameService.getGameCell(rowIdx, colIdx)
+        return `cells/${cell}.svg`
     }
 
     return (
         <button
-            className={'cell ' + getImgClass()}
+            className="cell"
             onMouseDown={onMouseDown}
             onMouseOver={onMouseOver}
             onMouseUp={onMouseUp}
             onContextMenu={onContextMenu}
-        />
+        >
+            <img draggable="false" src={getImg()} />
+        </button>
     )
 }
