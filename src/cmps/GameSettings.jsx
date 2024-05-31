@@ -21,11 +21,11 @@ export function GameSettings() {
     ]
 
     function isSelected(settingId) {
-        return settingId === gameSettings.preset
+        return settingId === gameSettings.settingId
     }
 
     function onCustomFormSubmit(draft) {
-        gameService.setCustomSettings({ preset: 'custom', ...draft })
+        gameService.setCustomSettings(draft)
         onChangeGameSettings('custom')
     }
 

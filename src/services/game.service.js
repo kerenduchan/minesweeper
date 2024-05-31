@@ -16,7 +16,7 @@ export const gameService = {
     getMineCounterValue,
 }
 
-// GAME MODEL
+// GAME MODEL (gGame)
 
 // status:
 // - idle    = game in progress, no win or loss, no mouse down.
@@ -68,8 +68,14 @@ const _presets = {
     },
 }
 
+// preset (beginner/intermediate/expert/custom), rowCount, colCount, mineCount
+// of the current game
 let gGameSettings
-let gCustomSettings
+
+// rowCount, colCount, mineCount for custom mode
+let gCustomSettings = _presets.beginner
+
+// the current game. See GAME MODEL comment above.
 let gGame
 
 setGameSettingsAndResetGame('beginner')
@@ -83,22 +89,18 @@ function getGameSettings() {
 }
 
 function getCustomSettings() {
-    return gCustomSettings ? gCustomSettings : _presets.beginner
+    return gCustomSettings
 }
 
 function setCustomSettings(settings) {
     gCustomSettings = settings
-    setGameSettingsAndResetGame('custom')
 }
 
-function setGameSettingsAndResetGame(presetOrCustom) {
-    gGameSettings =
-        presetOrCustom === 'custom'
-            ? getCustomSettings()
-            : _presets[presetOrCustom]
+function setGameSettingsAndResetGame(settingId) {
+    const settings =
+        settingId === 'custom' ? getCustomSettings() : _presets[settingId]
 
-    gGameSettings.preset = presetOrCustom
-
+    gGameSettings = { settingId, ...settings }
     resetGame()
 }
 
