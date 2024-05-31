@@ -4,10 +4,6 @@ import { gameService } from '../services/game.service'
 export function CustomForm({ onSubmit }) {
     const [draft, setDraft] = useState(gameService.getCustomSettings())
 
-    useEffect(() => {
-        gameService.getCustomSettings()
-    })
-
     function onChange(e) {
         setDraft((prev) => {
             const { id, value } = e.target
