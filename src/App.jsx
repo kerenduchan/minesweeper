@@ -6,19 +6,21 @@ import { gameService } from './services/game.service'
 
 export function App() {
     const [game, setGame] = useState(gameService.getGame())
-    const [gameSettings, setGameSettings] = useState(
-        gameService.getGameSettings()
+    const [gameSettingId, setGameSettingId] = useState(
+        gameService.getGameSettingId()
     )
 
-    function onChangeGameSettings(newGameSettings) {
-        gameService.setGameSettingsAndResetGame(newGameSettings)
-        setGameSettings(gameService.getGameSettings())
+    function onChangeGameSettingId(settingId) {
+        gameService.setGameSettingId(settingId)
+        gameService.resetGame()
+
+        setGameSettingId(gameService.getGameSettingId())
         setGame(gameService.getGame())
     }
 
     return (
         <GameContext.Provider
-            value={{ game, setGame, gameSettings, onChangeGameSettings }}
+            value={{ game, setGame, gameSettingId, onChangeGameSettingId }}
         >
             <div className="app">
                 <AppTopbar />

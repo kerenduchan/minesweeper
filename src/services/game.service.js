@@ -1,10 +1,10 @@
 export const gameService = {
+    resetGame,
     getGame,
-    getGameSettings,
+    getGameSettingId,
+    setGameSettingId,
     getCustomSettings,
     setCustomSettings,
-    setGameSettingsAndResetGame,
-    resetGame,
     cancelDangerStatus,
     getGameCell,
     isGameOver,
@@ -68,24 +68,19 @@ const _presets = {
     },
 }
 
-// preset (beginner/intermediate/expert/custom), rowCount, colCount, mineCount
-// of the current game
-let gGameSettings
+// the current game. See GAME MODEL comment above.
+let gGame
+
+// beginner / intermediate / expert / custom
+let gGameSettingId = 'beginner'
 
 // rowCount, colCount, mineCount for custom mode
 let gCustomSettings = _presets.beginner
 
-// the current game. See GAME MODEL comment above.
-let gGame
-
-setGameSettingsAndResetGame('beginner')
+resetGame()
 
 function getGame() {
     return gGame
-}
-
-function getGameSettings() {
-    return gGameSettings
 }
 
 function getCustomSettings() {
@@ -96,17 +91,17 @@ function setCustomSettings(settings) {
     gCustomSettings = settings
 }
 
-function setGameSettingsAndResetGame(settingId) {
-    const settings =
-        settingId === 'custom' ? getCustomSettings() : _presets[settingId]
-
-    gGameSettings = { settingId, ...settings }
-    resetGame()
+function getGameSettingId() {
+    return gGameSettingId
 }
 
-// reset the game based on the current game settings
+function setGameSettingId(settingId) {
+    gGameSettingId = settingId
+}
+
+// reset the game based on the current game setting ID
 function resetGame() {
-    const { rowCount, colCount, mineCount } = gGameSettings
+    const { rowCount, colCount, mineCount } = _getGameSettings()
     const solution = _generateGameSolution(mineCount, rowCount, colCount)
     let cellStates = []
     for (let i = 0; i < rowCount; i++) {
@@ -391,4 +386,11 @@ function _flagAllMines(game) {
             }
         })
     )
+}
+
+function _getGameSettings() {
+    if (gGameSettingId === 'custom') {
+        return getCustomSettings()
+    }
+    return _presets[gGameSettingId]
 }

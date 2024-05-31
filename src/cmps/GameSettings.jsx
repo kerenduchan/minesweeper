@@ -6,11 +6,11 @@ import { gameService } from '../services/game.service'
 
 export function GameSettings() {
     const [showCustomForm, setShowCustomForm] = useState(false)
-    const { gameSettings, onChangeGameSettings } = useContext(GameContext)
+    const { gameSettingId, onChangeGameSettingId } = useContext(GameContext)
 
     function onSettingClick(settingId) {
         setShowCustomForm(settingId === 'custom')
-        onChangeGameSettings(settingId)
+        onChangeGameSettingId(settingId)
     }
 
     const allPossibleGameSettings = [
@@ -20,13 +20,9 @@ export function GameSettings() {
         { id: 'custom', title: 'Custom' },
     ]
 
-    function isSelected(settingId) {
-        return settingId === gameSettings.settingId
-    }
-
     function onCustomFormSubmit(draft) {
         gameService.setCustomSettings(draft)
-        onChangeGameSettings('custom')
+        onChangeGameSettingId('custom')
     }
 
     return (
@@ -36,7 +32,7 @@ export function GameSettings() {
                     <GameSetting
                         key={setting.id}
                         setting={setting}
-                        isSelected={isSelected(setting.id)}
+                        isSelected={setting.id === gameSettingId}
                         onClick={() => onSettingClick(setting.id)}
                     />
                 ))}
