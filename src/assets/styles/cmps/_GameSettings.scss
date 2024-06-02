@@ -1,6 +1,11 @@
 .game-settings {
-    padding-inline-start: 20px;
-    margin: 5px 0;
-    display: flex;
-    gap: 20px;
+    background-color: var(--grey-10);
+    padding: 5px 0;
+
+    > ul {
+        padding: 5px 0;
+        padding-inline-start: 20px;
+        display: flex;
+        gap: 20px;
+    }
 }
