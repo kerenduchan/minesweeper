@@ -32,8 +32,3 @@
     height: var(--cell-size);
     width: var(--cell-size);
 }
-
-@mixin cell-bg-imgs {
-    @include cell-bg-img-class('un');
-    @include cell-bg-img-class('ex');
-}
