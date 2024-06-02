@@ -1,0 +1,8 @@
+$cellTypes: '00', '01', '02', '03', '04', '05', '06', '07', '08', 'fl', 'mm',
+    'mr', 'mx', 'qp', 'qq', 'un';
+
+@each $cellType in $cellTypes {
+    .cell-#{$cellType} {
+        @include cell-bg-img($cellType);
+    }
+}
