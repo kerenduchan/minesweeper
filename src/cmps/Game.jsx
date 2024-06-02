@@ -1,12 +1,16 @@
-import { useEffect, useCallback, useContext } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { gameService } from '../services/game.service'
+import { GameContext } from '../contexts/GameContext'
 import { Board } from './Board'
 import { BoardTopbar } from './BoardTopbar'
 import { BevelledBox } from './BevelledBox'
-import { GameContext } from '../contexts/GameContext'
+import { GameSettings } from './GameSettings'
 
 export function Game() {
-    const { game, setGame } = useContext(GameContext)
+    const [game, setGame] = useState(gameService.getGame())
+    const [gameSettingId, setGameSettingId] = useState(
+        gameService.getGameSettingId()
+    )
 
     useEffect(() => {
         document.addEventListener('mouseup', onBodyMouseUp)
@@ -70,23 +74,37 @@ export function Game() {
         gameService.setDangerCoords(null)
         loadGame()
     }
+
+    function onChangeGameSettingId(settingId) {
+        gameService.setGameSettingId(settingId)
+        gameService.resetGame()
+
+        setGameSettingId(gameService.getGameSettingId())
+        setGame(gameService.getGame())
+    }
+
     function loadGame() {
         setGame(gameService.getGame())
     }
 
     return (
-        <div className="game">
-            <BevelledBox isInset={false} bevelWidth={3} padding={6}>
-                <BoardTopbar game={game} onResetGame={onResetGame} />
-                <Board
-                    game={game}
-                    onLeftMouseDown={onLeftMouseDown}
-                    onMouseOver={onMouseOver}
-                    onMouseUp={onMouseUp}
-                    onRightMouseDown={onRightMouseDown}
-                    onBoardMouseOut={onBoardMouseOut}
-                />
-            </BevelledBox>
-        </div>
+        <GameContext.Provider
+            value={{ game, setGame, gameSettingId, onChangeGameSettingId }}
+        >
+            <GameSettings />
+            <div className="game">
+                <BevelledBox isInset={false} bevelWidth={3} padding={6}>
+                    <BoardTopbar game={game} onResetGame={onResetGame} />
+                    <Board
+                        game={game}
+                        onLeftMouseDown={onLeftMouseDown}
+                        onMouseOver={onMouseOver}
+                        onMouseUp={onMouseUp}
+                        onRightMouseDown={onRightMouseDown}
+                        onBoardMouseOut={onBoardMouseOut}
+                    />
+                </BevelledBox>
+            </div>
+        </GameContext.Provider>
     )
 }

@@ -26,8 +26,8 @@ export function GameSettings() {
     }
 
     return (
-        <>
-            <ul className="game-settings">
+        <div className="game-settings">
+            <ul>
                 {allPossibleGameSettings.map((setting) => (
                     <GameSetting
                         key={setting.id}
@@ -38,6 +38,6 @@ export function GameSettings() {
                 ))}
             </ul>
             {showCustomForm && <CustomForm onSubmit={onCustomFormSubmit} />}
-        </>
+        </div>
     )
 }
